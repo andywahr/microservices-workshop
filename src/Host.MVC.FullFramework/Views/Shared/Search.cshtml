@@ -1,0 +1,46 @@
+﻿@model ContosoTravel.Web.Application.Models.SearchModel
+
+<h4>Search For @Model.SearchMode.ToString()</h4>
+<hr />
+<div class="form-row align-items-center">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+</div>
+
+<form asp-action="Search" class="form-inline">
+    <input asp-for="StartLocation" class="form-control  col-sm-1" placeholder="@Model.StartLocationLabel" />
+    <span asp-validation-for="StartLocation" class="text-danger"></span>
+    @if (Model.IncludeEndLocation)
+    {
+        <input asp-for="EndLocation" class="form-control col-sm-1" placeholder="@Model.EndLocationLabel" />
+        <span asp-validation-for="EndLocation" class="text-danger"></span>
+    }
+    <div class='input-group date md-3' id='StartDate'>
+        <input type='text' class="form-control" placeholder="@Model.StartDateLabel" name="StartDate"/>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+
+    <div class='input-group date md-3' id='EndDate'>
+        <input type='text' class="form-control" placeholder="@Model.EndDateLabel" name="EndDate"/>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+
+    <input type="submit" value="Save" class="btn btn-primary" />
+</form>
+
+@section Scripts {
+    @{Html.RenderPartial("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(function () {
+            $('#StartDate').datetimepicker();
+        });
+        $(function () {
+            $('#EndDate').datetimepicker();
+        });
+    </script>
+}
+

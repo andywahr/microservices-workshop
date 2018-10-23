@@ -19,6 +19,7 @@ namespace ContosoTravel.Web.Host.MVC.FullFramework.Controllers
 
         public ActionResult Index()
         {
+            ViewData["Title"] = "Index";
             IndexModel model = new IndexModel() { DataProviderName = _dataProvider.GetProvider() };
             return View(model);
         }

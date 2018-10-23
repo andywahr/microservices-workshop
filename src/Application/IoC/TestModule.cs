@@ -14,6 +14,10 @@ namespace ContosoTravel.Web.Application.IoC
             builder.RegisterType<SQLServerDataProvider>()
                    .As<IDataProvider>()
                    .SingleInstance();
+
+            builder.RegisterType<Data.Mock.FlightDataMockProvider>()
+                   .As<IFlightDataProvider>()
+                   .SingleInstance();
         }
     }
 }

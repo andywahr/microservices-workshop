@@ -93,6 +93,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="netstandard" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
@@ -150,7 +151,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FlightsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HotelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,16 +176,6 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -200,6 +193,22 @@
     <Content Include="..\Host.MVC.Core\Views\Home\Index.cshtml">
       <Link>Views\Home\Index.cshtml</Link>
     </Content>
+    <Content Include="..\Host.MVC.Core\Views\Flights\Index.cshtml">
+      <Link>Views\Flights\Index.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Shared\Search.cshtml">
+      <Link>Views\Shared\Search.cshtml</Link>
+    </Content>
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -226,7 +235,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -239,10 +250,13 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Cars\" />
+    <Folder Include="Views\Hotels\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -301,19 +315,14 @@
   <Target Name="BeforeBuild">
   </Target> -->
   <Target Name="AfterBuild">
-        <!-- MODIFICATION HERE: Copy local content files (i.e. non-linked files) recursively to _PublishedWebsites\app\ folder -->
-    <Copy Condition=" '%(Content.Link)' == '' "
-      SourceFiles="%(Content.Identity)"
-      DestinationFolder="$(WebProjectOutputDir)\%(Content.RelativeDir)" />
+    <!-- MODIFICATION HERE: Copy local content files (i.e. non-linked files) recursively to _PublishedWebsites\app\ folder -->
+    <Copy Condition=" '%(Content.Link)' == '' " SourceFiles="%(Content.Identity)" DestinationFolder="$(WebProjectOutputDir)\%(Content.RelativeDir)" />
   </Target>
-    <Target Name="CopyLinkedContentFiles">
+  <Target Name="CopyLinkedContentFiles">
     <!-- Remove any old copies of the files -->
-    <Delete Condition=" '%(Content.Link)' != '' AND Exists('$(WebProjectOutputDir)\%(Content.Link)') "
-        Files="$(WebProjectOutputDir)\%(Content.Link)" />
+    <Delete Condition=" '%(Content.Link)' != '' AND Exists('$(WebProjectOutputDir)\%(Content.Link)') " Files="$(WebProjectOutputDir)\%(Content.Link)" />
     <!-- Copy linked content files recursively to the project folder -->
-    <Copy Condition=" '%(Content.Link)' != '' "
-      SourceFiles="%(Content.Identity)"
-      DestinationFiles="$(WebProjectOutputDir)\%(Content.Link)" />
+    <Copy Condition=" '%(Content.Link)' != '' " SourceFiles="%(Content.Identity)" DestinationFiles="$(WebProjectOutputDir)\%(Content.Link)" />
   </Target>
   <!-- Override the default target dependencies to -->
   <!-- include the new _CopyLinkedContentFiles target. -->

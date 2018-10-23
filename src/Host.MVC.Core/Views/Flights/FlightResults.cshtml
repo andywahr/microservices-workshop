@@ -1,0 +1,74 @@
+﻿@model ContosoTravel.Web.Application.Models.RoundTripModel
+
+<h2>Flight Search Results</h2>
+
+<div>
+    <h4>Departing Flights</h4>
+    <hr />
+    @foreach (var departFlight in Model.DepartingFlights)
+    {
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => departFlight.DepartingFrom)
+        </dt>
+        <dd>
+            @departFlight.DepartingFromAiport.AirportName (@departFlight.DepartingFrom)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => departFlight.ArrivingAt)
+        </dt>
+        <dd>
+            @departFlight.ArrivingAtAiport.AirportName (@departFlight.ArrivingAt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => departFlight.DepartureTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => departFlight.DepartureTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => departFlight.ArrivalTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => departFlight.ArrivalTime) (Duration: @departFlight.Duration.Hours Hrs @departFlight.Duration.Minutes Min)
+        </dd>
+    </dl>
+    }
+</div>
+
+<div>
+    <h4>Returning Flights</h4>
+    <hr />
+    @foreach (var returnFlight in Model.ReturningFlights)
+    { 
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => returnFlight.DepartingFrom)
+            </dt>
+            <dd>
+                @returnFlight.DepartingFromAiport.AirportName (@returnFlight.DepartingFrom)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => returnFlight.ArrivingAt)
+            </dt>
+            <dd>
+                @returnFlight.ArrivingAtAiport.AirportName (@returnFlight.ArrivingAt)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => returnFlight.DepartureTime)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => returnFlight.DepartureTime)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => returnFlight.ArrivalTime)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => returnFlight.ArrivalTime) (Duration: @returnFlight.Duration.Hours Hrs @returnFlight.Duration.Minutes Min)
+            </dd>
+        </dl>
+    }
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

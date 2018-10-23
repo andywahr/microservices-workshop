@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host.MVC.FullFramework", "Host.MVC.FullFramework\Host.MVC.FullFramework.csproj", "{8A6DF525-F280-4936-8865-09ED83B35AD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host.MVC.Core", "Host.MVC.Core\Host.MVC.Core.csproj", "{D24896B1-107D-46C5-B2A4-5D733C9DDC13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host.MVC.Core", "Host.MVC.Core\Host.MVC.Core.csproj", "{D24896B1-107D-46C5-B2A4-5D733C9DDC13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
