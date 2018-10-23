@@ -67,6 +67,8 @@ namespace ContosoTravel.Web.Host.MVC.Core
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            Application.Models.SiteModel.SiteTitle = "Contoso Travel - .Net Core";
         }
     }
 }

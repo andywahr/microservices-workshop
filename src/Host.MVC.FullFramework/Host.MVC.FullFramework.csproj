@@ -191,6 +191,15 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="..\Host.MVC.Core\Views\Home\About.cshtml">
+      <Link>Views\Home\About.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Home\Contact.cshtml">
+      <Link>Views\Home\Contact.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Home\Index.cshtml">
+      <Link>Views\Home\Index.cshtml</Link>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -221,9 +230,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -293,7 +299,30 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
   </Target> -->
+  <Target Name="AfterBuild">
+        <!-- MODIFICATION HERE: Copy local content files (i.e. non-linked files) recursively to _PublishedWebsites\app\ folder -->
+    <Copy Condition=" '%(Content.Link)' == '' "
+      SourceFiles="%(Content.Identity)"
+      DestinationFolder="$(WebProjectOutputDir)\%(Content.RelativeDir)" />
+  </Target>
+    <Target Name="CopyLinkedContentFiles">
+    <!-- Remove any old copies of the files -->
+    <Delete Condition=" '%(Content.Link)' != '' AND Exists('$(WebProjectOutputDir)\%(Content.Link)') "
+        Files="$(WebProjectOutputDir)\%(Content.Link)" />
+    <!-- Copy linked content files recursively to the project folder -->
+    <Copy Condition=" '%(Content.Link)' != '' "
+      SourceFiles="%(Content.Identity)"
+      DestinationFiles="$(WebProjectOutputDir)\%(Content.Link)" />
+  </Target>
+  <!-- Override the default target dependencies to -->
+  <!-- include the new _CopyLinkedContentFiles target. -->
+  <PropertyGroup>
+    <PrepareForRunDependsOn>
+      $(PrepareForRunDependsOn);
+      _CopyWebApplication;
+      CopyLinkedContentFiles;
+      _BuiltWebOutputGroupOutput
+    </PrepareForRunDependsOn>
+  </PropertyGroup>
 </Project>

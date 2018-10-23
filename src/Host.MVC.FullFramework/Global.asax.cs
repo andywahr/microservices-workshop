@@ -17,6 +17,7 @@ namespace ContosoTravel.Web.Host.MVC.FullFramework
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ContosoTravel.Web.Application.Models.SiteModel.SiteTitle = "Contoso Travel - .Net Framework";
         }
     }
 }
