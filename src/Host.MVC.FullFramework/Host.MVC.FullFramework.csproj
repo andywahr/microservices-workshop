@@ -184,15 +184,6 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <Content Include="..\Host.MVC.Core\Views\Home\About.cshtml">
-      <Link>Views\Home\About.cshtml</Link>
-    </Content>
-    <Content Include="..\Host.MVC.Core\Views\Home\Contact.cshtml">
-      <Link>Views\Home\Contact.cshtml</Link>
-    </Content>
-    <Content Include="..\Host.MVC.Core\Views\Home\Index.cshtml">
-      <Link>Views\Home\Index.cshtml</Link>
-    </Content>
     <Content Include="..\Host.MVC.Core\Views\Flights\Index.cshtml">
       <Link>Views\Flights\Index.cshtml</Link>
     </Content>

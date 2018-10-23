@@ -65,7 +65,7 @@ namespace ContosoTravel.Web.Host.MVC.Core
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Flights}/{action=Index}/{id?}");
             });
 
             Application.Models.SiteModel.SiteTitle = "Contoso Travel - .Net Core";

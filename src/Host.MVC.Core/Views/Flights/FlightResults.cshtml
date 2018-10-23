@@ -7,68 +7,34 @@
     <hr />
     @foreach (var departFlight in Model.DepartingFlights)
     {
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => departFlight.DepartingFrom)
-        </dt>
-        <dd>
-            @departFlight.DepartingFromAiport.AirportName (@departFlight.DepartingFrom)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => departFlight.ArrivingAt)
-        </dt>
-        <dd>
-            @departFlight.ArrivingAtAiport.AirportName (@departFlight.ArrivingAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => departFlight.DepartureTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => departFlight.DepartureTime)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => departFlight.ArrivalTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => departFlight.ArrivalTime) (Duration: @departFlight.Duration.Hours Hrs @departFlight.Duration.Minutes Min)
-        </dd>
-    </dl>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Departing @departFlight.DepartureTime.ToLocalTime().DateTime (Duration: @departFlight.Duration.Hours Hrs @departFlight.Duration.Minutes Mins) - Total Cost: @string.Format("{0:c}", departFlight.Cost)</h5>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Departing: @departFlight.DepartingFromAiport.AirportName (@departFlight.DepartingFrom) - @departFlight.DepartureTime.ToLocalTime().DateTime @departFlight.DepartingFromAiport.TimeZone</h5>
+            <h5 class="card-title">Arriving: @departFlight.ArrivingAtAiport.AirportName (@departFlight.ArrivingAt) - @departFlight.ArrivalTime.ToLocalTime().DateTime @departFlight.ArrivingAtAiport.TimeZone</h5>
+        </div>
+    </div>
     }
-</div>
 
-<div>
-    <h4>Returning Flights</h4>
-    <hr />
-    @foreach (var returnFlight in Model.ReturningFlights)
-    { 
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => returnFlight.DepartingFrom)
-            </dt>
-            <dd>
-                @returnFlight.DepartingFromAiport.AirportName (@returnFlight.DepartingFrom)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => returnFlight.ArrivingAt)
-            </dt>
-            <dd>
-                @returnFlight.ArrivingAtAiport.AirportName (@returnFlight.ArrivingAt)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => returnFlight.DepartureTime)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => returnFlight.DepartureTime)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => returnFlight.ArrivalTime)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => returnFlight.ArrivalTime) (Duration: @returnFlight.Duration.Hours Hrs @returnFlight.Duration.Minutes Min)
-            </dd>
-        </dl>
-    }
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <h4>Returning Flights</h4>
+        <hr />
+        @foreach (var returnFlight in Model.ReturningFlights)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Departing @returnFlight.DepartureTime.ToLocalTime().DateTime (Duration: @returnFlight.Duration.Hours Hrs @returnFlight.Duration.Minutes Mins) - Total Cost: @string.Format("{0:c}", returnFlight.Cost)</h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Departing: @returnFlight.DepartingFromAiport.AirportName (@returnFlight.DepartingFrom) - @returnFlight.DepartureTime.ToLocalTime().DateTime @returnFlight.DepartingFromAiport.TimeZone</h5>
+                    <h5 class="card-title">Arriving: @returnFlight.ArrivingAtAiport.AirportName (@returnFlight.ArrivingAt) - @returnFlight.ArrivalTime.ToLocalTime().DateTime @returnFlight.ArrivingAtAiport.TimeZone</h5>
+                </div>
+            </div>
+        }
+    </div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>

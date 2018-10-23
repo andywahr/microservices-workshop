@@ -14,8 +14,8 @@ namespace ContosoTravel.Web.Application.Data.Mock
         public async Task<IEnumerable<FlightModel>> FindFlights(string departingFrom, string arrivingAt, DateTimeOffset desiredTime, TimeSpan offset, CancellationToken cancellationToken)
         {
             return GetAll().Where(f => f.DepartingFrom.Equals(departingFrom) && f.ArrivingAt.Equals(arrivingAt) &&
-                                       f.DepartureTime.TimeOfDay > desiredTime.TimeOfDay.Subtract(offset) &&
-                                       f.DepartureTime.TimeOfDay < desiredTime.TimeOfDay.Add(offset));
+                                       f.DepartureTime > desiredTime.Subtract(offset) &&
+                                       f.DepartureTime < desiredTime.Add(offset)).OrderByDescending(f => f.DepartureTime);
         }
 
         public IEnumerable<FlightModel> GetAll()
@@ -42,6 +42,11 @@ namespace ContosoTravel.Web.Application.Data.Mock
                         int minutesToAddToFiveAm = (int)(random.NextDouble() * 19d * 60d);
                         DateTimeOffset departDate = DateTimeOffset.Parse($"{today.ToString("MM/dd/yyyy")} 5:00 AM {departingTimeZone.BaseUtcOffset.Hours.ToString("00")}:{departingTimeZone.BaseUtcOffset.Minutes.ToString("00")}").AddMinutes(minutesToAddToFiveAm);
 
+                        if (departingTimeZone.IsDaylightSavingTime(today))
+                        {
+                            departDate = departDate.AddHours(1);
+                        }
+
                         allFlights.Add(new FlightModel()
                         {
                             DepartingFromAiport = airports[flightTime.DepartingFrom],
@@ -49,13 +54,29 @@ namespace ContosoTravel.Web.Application.Data.Mock
                             ArrivingAtAiport = airports[flightTime.ArrivingAt],
                             ArrivingAt = flightTime.ArrivingAt,
                             Duration = flightTime.Duration,
-                            DepartureTime = departDate
-                        });
+                            DepartureTime = departDate,
+                            Cost = 1500d * random.NextDouble(),
+                            ArrivalTime = CalcLocalTime(flightTime, airports, departDate)
+
+                    });
                     }
                 }
             }
 
             return allFlights;
+        }
+
+        private DateTimeOffset CalcLocalTime(FlightTime flightTime, Dictionary<string, Airport> airports, DateTimeOffset departDate)
+        {
+            DateTimeOffset arrivalTime = departDate.Add(flightTime.Duration);
+            TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(airports[flightTime.ArrivingAt].TimeZone);
+
+            if ( timeZoneInfo.IsDaylightSavingTime(arrivalTime))
+            {
+                arrivalTime = arrivalTime.AddHours(1);
+            }
+
+            return TimeZoneInfo.ConvertTime(arrivalTime.DateTime, timeZoneInfo);
         }
     }
 }
