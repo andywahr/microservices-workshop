@@ -1,16 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ContosoTravel.Web.Application.Interfaces.MVC;
+using ContosoTravel.Web.Application.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Host.MVC.Core.Controllers
+namespace ContosoTravel.Web.Host.MVC.Core.Controllers
 {
     public class CarsController : Controller
     {
-        public IActionResult Index()
+        private readonly ICarsController _carsController;
+
+        public CarsController(ICarsController carsController)
         {
-            return View();
+            _carsController = carsController;
+        }
+
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        {
+            return View("Search", await _carsController.Index(cancellationToken));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Search(SearchModel searchRequest, CancellationToken cancellationToken)
+        {
+            return View("CarResults", await _carsController.Search(searchRequest, cancellationToken));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Purchase(CarReservationModel flight, CancellationToken cancellationToken)
+        {
+            await _carsController.Purchase(flight, cancellationToken);
+            return RedirectToAction("Index", "Cart");
         }
     }
 }

@@ -12,10 +12,14 @@ namespace ContosoTravel.Web.Application.Data.Mock
     {
         public Dictionary<string, CartModel> _carts = new Dictionary<string, CartModel>();
         private readonly IFlightDataProvider _flightDataProvider;
+        private readonly ICarDataProvider _carDataProvider;
+        private readonly IHotelDataProvider _hotelDataProvider;
 
-        public CartDataMockProvider(IFlightDataProvider flightDataProvider)
+        public CartDataMockProvider(IFlightDataProvider flightDataProvider, ICarDataProvider carDataProvider, IHotelDataProvider hotelDataProvider)
         {
             _flightDataProvider = flightDataProvider;
+            _carDataProvider = carDataProvider;
+            _hotelDataProvider = hotelDataProvider;
         }
 
         public async Task<CartModel> GetCart(string cartId, CancellationToken cancellationToken)
@@ -40,5 +44,37 @@ namespace ContosoTravel.Web.Application.Data.Mock
             return await Task.FromResult(cart);
         }
 
+        public async Task<CartModel> UpsertCartCar(string cartId, string carId, double numberOfDays, CancellationToken cancellationToken)
+        {
+            CartModel cart;
+
+            if ( !_carts.TryGetValue(cartId, out cart))
+            {
+                cart = new CartModel();
+            }
+
+            cart.CarReservation = await _carDataProvider.FindCar(carId, cancellationToken);
+            cart.CarReservationDuration = numberOfDays;
+            _carts[cartId] = cart;
+
+            return await Task.FromResult(cart);
+
+        }
+        public async Task<CartModel> UpsertCartHotel(string cartId, string hotelId, int numberOfDays, CancellationToken cancellationToken)
+        {
+            CartModel cart;
+
+            if (!_carts.TryGetValue(cartId, out cart))
+            {
+                cart = new CartModel();
+            }
+
+            cart.HotelReservation = await _hotelDataProvider.FindHotel(hotelId, cancellationToken);
+            cart.HotelReservationDuration = numberOfDays;
+            _carts[cartId] = cart;
+
+            return await Task.FromResult(cart);
+
+        }
     }
 }

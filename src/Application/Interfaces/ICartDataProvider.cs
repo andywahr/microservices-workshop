@@ -11,5 +11,7 @@ namespace ContosoTravel.Web.Application.Interfaces
     {
         Task<CartModel> GetCart(string cartId, CancellationToken cancellationToken);
         Task<CartModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken);
+        Task<CartModel> UpsertCartCar(string cartId, string carId, double numberOfDays, CancellationToken cancellationToken);
+        Task<CartModel> UpsertCartHotel(string cartId, string hotelId, int numberOfDays, CancellationToken cancellationToken);
     }
 }

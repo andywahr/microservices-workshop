@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ContosoTravel.Web.Application.Models
 {
-    public class RoundTripModel
+    public class FlightReservationModel
     {
         public IEnumerable<FlightModel> DepartingFlights { get; set; }
         public IEnumerable<FlightModel> ReturningFlights { get; set; }

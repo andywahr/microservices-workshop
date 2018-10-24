@@ -53,7 +53,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                 var departingFrom = await _airportDataProvider.FindByCode(flightTime.DepartingFrom, CancellationToken.None);
                 var arrivingAt = await _airportDataProvider.FindByCode(flightTime.ArrivingAt, CancellationToken.None);
 
-                for (int dayOffset = 0; dayOffset < 14; dayOffset++)
+                for (int dayOffset = -1; dayOffset < 14; dayOffset++)
                 {
                     int numberOfFlights = random.Next(5, 20);
                     DateTime today = DateTime.Now.Date.AddDays(dayOffset);

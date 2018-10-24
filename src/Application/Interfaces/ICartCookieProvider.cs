@@ -4,8 +4,9 @@ using System.Text;
 
 namespace ContosoTravel.Web.Application.Interfaces
 {
-    public interface IDataProvider
+    public interface ICartCookieProvider
     {
-        string GetProvider();
+        string GetCartCookie();
+        void SetCartCookie(string cookieId);
     }
 }

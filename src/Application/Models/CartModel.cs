@@ -14,7 +14,10 @@ namespace ContosoTravel.Web.Application.Models
         public string Id { get; set; }
         public FlightModel DepartingFlight { get; set; }
         public FlightModel ReturningFlight { get; set; }
-        public CarReservationModel CarReservation { get; set; }
-        public HotelReservationModel HotelReservation { get; set; }
+        public CarModel CarReservation { get; set; }
+        public double CarReservationDuration { get; set; }
+        public HotelModel HotelReservation { get; set; }
+        public int HotelReservationDuration { get; set; }
+        public double TotalCost => (DepartingFlight?.Cost ?? 0d) + (ReturningFlight?.Cost ?? 0d) + (CarReservation?.Cost ?? 0d) * CarReservationDuration + (HotelReservation?.Cost ?? 0d) * HotelReservationDuration;
     }
 }

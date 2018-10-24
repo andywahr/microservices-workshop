@@ -1,35 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ContosoTravel.Web.Application.Interfaces.MVC;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
-using ContosoTravel.Web.Application.Interfaces;
-using ContosoTravel.Web.Application.Models;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Host.MVC.Core.Controllers
+namespace ContosoTravel.Web.Host.MVC.Core.Controllers
 {
     public class CartController : Controller
     {
-        private readonly ICartDataProvider _cartDataProvider;
-        private static TimeSpan THREEHOURSBEFOREORAFTER = TimeSpan.FromHours(3);
+        private readonly ICartController _cartController;
 
-        public CartController(ICartDataProvider cartDataProvider)
+        public CartController(ICartController cartController)
         {
-            _cartDataProvider = cartDataProvider;
+            _cartController = cartController;
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            string cartId = string.Empty;
-            if (!Request.Cookies.TryGetValue("CartId", out cartId))
-            {
-                RedirectToAction();
-            }
-
-            CartModel currentCart = await _cartDataProvider.GetCart(cartId, cancellationToken);
-
-            return View(currentCart);
+            return View(await _cartController.Index(cancellationToken));
         }
     }
 }

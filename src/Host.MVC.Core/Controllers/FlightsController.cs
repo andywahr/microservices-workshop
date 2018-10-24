@@ -4,62 +4,36 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ContosoTravel.Web.Application.Data.Mock;
-using ContosoTravel.Web.Application.Interfaces;
+using ContosoTravel.Web.Application.Interfaces.MVC;
 using ContosoTravel.Web.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Host.MVC.Core.Controllers
+namespace ContosoTravel.Web.Host.MVC.Core.Controllers
 {
     public class FlightsController : Controller
     {
-        private readonly IFlightDataProvider _flightDataProvider;
-        private readonly ICartDataProvider _cartDataProvider;
-        private static TimeSpan THREEHOURSBEFOREORAFTER = TimeSpan.FromHours(3);
+        private readonly IFlightsController _flightsController;
 
-        public FlightsController(IFlightDataProvider flightDataProvider, ICartDataProvider cartDataProvider)
+        public FlightsController(IFlightsController flightController)
         {
-            _flightDataProvider = flightDataProvider;
-            _cartDataProvider = cartDataProvider;
+            _flightsController = flightController;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            return View("Search", new SearchModel()
-            {
-                SearchMode = SearchMode.Flights,
-                IncludeEndLocation = true,
-                StartLocationLabel = "Depart From",
-                EndLocationLabel = "Return From",
-                StartDateLabel = "Depart",
-                EndDateLabel = "Return",
-                AirPorts = Airport.GetAll().OrderBy(air => air.AirportCode)
-            });
+            return View("Search", await _flightsController.Index(cancellationToken));
         }
 
         [HttpPost]
         public async Task<IActionResult> Search(SearchModel searchRequest, CancellationToken cancellationToken)
         {
-            string cartId = string.Empty;
-            if (!Request.Cookies.TryGetValue("CartId", out cartId))
-            {
-                CartModel currentCart = new CartModel();
-                Response.Cookies.Append("CartId", currentCart.Id);
-                cartId = currentCart.Id;
-            }
-
-            RoundTripModel roundTrip = new RoundTripModel();
-            roundTrip.DepartingFlights = await _flightDataProvider.FindFlights(searchRequest.StartLocation, searchRequest.EndLocation, searchRequest.StartDate, THREEHOURSBEFOREORAFTER, cancellationToken);
-            roundTrip.ReturningFlights = await _flightDataProvider.FindFlights(searchRequest.EndLocation, searchRequest.StartLocation, searchRequest.EndDate, THREEHOURSBEFOREORAFTER, cancellationToken);
-            return View("FlightResults", roundTrip);
+            return View("FlightResults", await _flightsController.Search(searchRequest, cancellationToken));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Purchase(RoundTripModel searchRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> Purchase(FlightReservationModel flight, CancellationToken cancellationToken)
         {
-            string cartId = Request.Cookies["CartId"];
-
-            await _cartDataProvider.UpsertCartFlights(cartId, searchRequest.SelectedDepartingFlight, searchRequest.SelectedReturningFlight, cancellationToken);
-
+            await _flightsController.Purchase(flight, cancellationToken);
             return RedirectToAction("Index", "Cart");
         }
     }

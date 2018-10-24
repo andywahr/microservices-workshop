@@ -15,6 +15,14 @@ namespace ContosoTravel.Web.Application.IoC
                    .As<IFlightDataProvider>()
                    .SingleInstance();
 
+            builder.RegisterType<Data.Mock.CarDataMockProvider>()
+                   .As<ICarDataProvider>()
+                   .SingleInstance();
+
+            builder.RegisterType<Data.Mock.HotelDataMockProvider>()
+                   .As<IHotelDataProvider>()
+                   .SingleInstance();
+
             builder.RegisterType<Data.Mock.CartDataMockProvider>()
                    .As<ICartDataProvider>()
                    .SingleInstance();

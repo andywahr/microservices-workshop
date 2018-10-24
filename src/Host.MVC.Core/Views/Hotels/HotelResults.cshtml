@@ -1,0 +1,16 @@
+﻿@model ContosoTravel.Web.Application.Models.HotelReservationModel
+
+<h2>Hotel Search Results</h2>
+
+<form asp-action="Purchase" class="form-inline">
+    <div>
+        @foreach (var hotel in Model.Hotels)
+        {
+            var displayHotel = new ContosoTravel.Web.Application.Models.HotelModelWithPrice(hotel, Model.NumberOfDays);
+            @Html.DisplayFor(m => displayHotel);
+        }
+        <input type="hidden" name="NumberOfDays" value="@Model.NumberOfDays" />
+        <input type="submit" value="Add To Cart" class="btn btn-success" />
+    </div>
+</form>
+

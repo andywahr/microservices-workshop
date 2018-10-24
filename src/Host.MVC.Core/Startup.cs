@@ -37,6 +37,7 @@ namespace ContosoTravel.Web.Host.MVC.Core
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddHttpContextAccessor();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

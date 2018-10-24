@@ -1,46 +1,39 @@
 ﻿@model ContosoTravel.Web.Application.Models.CartModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["HidePurchase"] = "true";
 }
+
+<h1>Cart Total: @string.Format("{0:c}", Model.TotalCost)</h1>
 
 @if (Model.DepartingFlight != null)
 {
     <h2>Departing Flight</h2>
-
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title">
-                Departing @Model.DepartingFlight.DepartureTime.ToLocalTime().DateTime (Duration: @Model.DepartingFlight.Duration.Hours Hrs @Model.DepartingFlight.Duration.Minutes Mins) - Total Cost: @string.Format("{0:c}", Model.DepartingFlight.Cost)
-                <label class="btn btn-primary">
-                    <input type="radio" id="SelectedReturningFlight" name="SelectedReturningFlight" value="@Model.DepartingFlight.Id" />Purchase
-                </label>
-            </h5>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Departing: @Model.DepartingFlight.DepartingFromAiport.AirportName (@Model.DepartingFlight.DepartingFrom) - @Model.DepartingFlight.DepartureTime.ToLocalTime().DateTime @Model.DepartingFlight.DepartingFromAiport.TimeZone</h5>
-            <h5 class="card-title">Arriving: @Model.DepartingFlight.ArrivingAtAiport.AirportName (@Model.DepartingFlight.ArrivingAt) - @Model.DepartingFlight.ArrivalTime.ToLocalTime().DateTime @Model.DepartingFlight.ArrivingAtAiport.TimeZone</h5>
-        </div>
-    </div>
+    @Html.DisplayFor(m => Model.DepartingFlight)
 }
 
 @if (Model.ReturningFlight != null)
 {
     <h2>Returning Flight</h2>
-
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title">
-                Returning @Model.ReturningFlight.DepartureTime.ToLocalTime().DateTime (Duration: @Model.ReturningFlight.Duration.Hours Hrs @Model.ReturningFlight.Duration.Minutes Mins) - Total Cost: @string.Format("{0:c}", Model.ReturningFlight.Cost)
-                <label class="btn btn-primary">
-                    <input type="radio" id="SelectedReturningFlight" name="SelectedReturningFlight" value="@Model.ReturningFlight.Id" />Purchase
-                </label>
-            </h5>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Returning: @Model.ReturningFlight.DepartingFromAiport.AirportName (@Model.DepartingFlight.DepartingFrom) - @Model.ReturningFlight.DepartureTime.ToLocalTime().DateTime @Model.ReturningFlight.DepartingFromAiport.TimeZone</h5>
-            <h5 class="card-title">Arriving: @Model.ReturningFlight.ArrivingAtAiport.AirportName (@Model.ReturningFlight.ArrivingAt) - @Model.ReturningFlight.ArrivalTime.ToLocalTime().DateTime @Model.ReturningFlight.ArrivingAtAiport.TimeZone</h5>
-        </div>
-    </div>
+    @Html.DisplayFor(m => Model.ReturningFlight)
 }
+
+@if (Model.HotelReservation != null)
+{
+    var displayHotel = new ContosoTravel.Web.Application.Models.HotelModelWithPrice(Model.HotelReservation, Model.HotelReservationDuration);
+    <h2>
+        Hotel Reservation
+    </h2>
+    @Html.DisplayFor(m => displayHotel)
+}
+
+@if (Model.CarReservation != null)
+{
+    var displayCar = new ContosoTravel.Web.Application.Models.CarModelWithPrice(Model.CarReservation, Model.CarReservationDuration);
+    <h2>
+        Car Reservation
+    </h2>
+    @Html.DisplayFor(m => displayCar)
+}
+
 
