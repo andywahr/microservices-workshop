@@ -7,11 +7,17 @@ namespace ContosoTravel.Web.Application.Models
 {
     public class FlightModel
     {
+        public FlightModel()
+        {
+            Id = Guid.NewGuid().ToString("n");
+        }
+
+        public string Id { get; set; }
         public string DepartingFrom { get; set; }
         public string ArrivingAt { get; set; }
         public DateTimeOffset DepartureTime { get; set; }
         public TimeSpan Duration { get; set; }
-        public DateTimeOffset ArrivalTime { get; set; } // => TimeZoneInfo.ConvertTime(DepartureTime.Add(Duration), TimeZoneInfo.FindSystemTimeZoneById(ArrivingAtAiport.TimeZone));
+        public DateTimeOffset ArrivalTime { get; set; }
 
         public Airport DepartingFromAiport { get; set; }
         public Airport ArrivingAtAiport { get; set; }

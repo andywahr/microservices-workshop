@@ -14,17 +14,5 @@
       "library": "twitter-bootstrap@4.1.3",
       "destination": "wwwroot/lib/bootstrap/"
     }
-  ,
-    {
-      "provider": "cdnjs",
-      "library": "bootstrap-datetimepicker@4.17.47",
-      "destination": "wwwroot/lib/bootstrap-datetimepicker/"
-    }
-,
-{
-  "provider": "cdnjs",
-  "library": "moment.js@2.22.2",
-  "destination": "wwwroot/lib/moment.js/"
-}
 ]
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ContosoTravel.Web.Application.Data.Mock;
 
 namespace ContosoTravel.Web.Application.Models
 {
@@ -17,6 +18,7 @@ namespace ContosoTravel.Web.Application.Models
         public DateTimeOffset EndDate { get; set; }
         public string EndDateLabel { get; set; }
         public SearchMode SearchMode { get; set; }
+        public IEnumerable<Airport> AirPorts { get; set; }
     }
 
     public enum SearchMode

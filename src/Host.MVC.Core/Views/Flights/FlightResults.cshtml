@@ -2,22 +2,29 @@
 
 <h2>Flight Search Results</h2>
 
-<div>
-    <h4>Departing Flights</h4>
-    <hr />
-    @foreach (var departFlight in Model.DepartingFlights)
-    {
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title">Departing @departFlight.DepartureTime.ToLocalTime().DateTime (Duration: @departFlight.Duration.Hours Hrs @departFlight.Duration.Minutes Mins) - Total Cost: @string.Format("{0:c}", departFlight.Cost)</h5>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Departing: @departFlight.DepartingFromAiport.AirportName (@departFlight.DepartingFrom) - @departFlight.DepartureTime.ToLocalTime().DateTime @departFlight.DepartingFromAiport.TimeZone</h5>
-            <h5 class="card-title">Arriving: @departFlight.ArrivingAtAiport.AirportName (@departFlight.ArrivingAt) - @departFlight.ArrivalTime.ToLocalTime().DateTime @departFlight.ArrivingAtAiport.TimeZone</h5>
-        </div>
+<form asp-action="Purchase" class="form-inline">
+    <div>
+        <h4>Departing Flights</h4>
+        <hr />
+        @foreach (var departFlight in Model.DepartingFlights)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title float-left">
+                        Departing @departFlight.DepartureTime.ToLocalTime().DateTime (Duration: @departFlight.Duration.Hours Hrs @departFlight.Duration.Minutes Mins) - Total Cost: @string.Format("{0:c}", departFlight.Cost)
+                    </h5>
+                    <label class="btn btn-primary input-group-btn float-right">
+                        <input type="radio" id="SelectedDepartingFlight" name="SelectedDepartingFlight" value="@departFlight.Id">Purchase
+                    </label>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Departing: @departFlight.DepartingFromAiport.AirportName (@departFlight.DepartingFrom) - @departFlight.DepartureTime.ToLocalTime().DateTime @departFlight.DepartingFromAiport.TimeZone</h5>
+                    <h5 class="card-title">Arriving: @departFlight.ArrivingAtAiport.AirportName (@departFlight.ArrivingAt) - @departFlight.ArrivalTime.ToLocalTime().DateTime @departFlight.ArrivingAtAiport.TimeZone</h5>
+                </div>
+            </div>
+        }
     </div>
-    }
-
+    <br />
     <div>
         <h4>Returning Flights</h4>
         <hr />
@@ -25,7 +32,12 @@
         {
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">Departing @returnFlight.DepartureTime.ToLocalTime().DateTime (Duration: @returnFlight.Duration.Hours Hrs @returnFlight.Duration.Minutes Mins) - Total Cost: @string.Format("{0:c}", returnFlight.Cost)</h5>
+                    <h5 class="card-title float-left">
+                        Departing @returnFlight.DepartureTime.ToLocalTime().DateTime (Duration: @returnFlight.Duration.Hours Hrs @returnFlight.Duration.Minutes Mins) - Total Cost: @string.Format("{0:c}", returnFlight.Cost)
+                    </h5>
+                    <label class="btn btn-primary float-right">
+                        <input type="radio" id="SelectedReturningFlight" name="SelectedReturningFlight" value="@returnFlight.Id">Purchase
+                    </label>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Departing: @returnFlight.DepartingFromAiport.AirportName (@returnFlight.DepartingFrom) - @returnFlight.DepartureTime.ToLocalTime().DateTime @returnFlight.DepartingFromAiport.TimeZone</h5>
@@ -33,8 +45,8 @@
                 </div>
             </div>
         }
+        <input type="submit" value="Add To Cart" class="btn btn-success" />
     </div>
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
-    </div>
+
+</form>
+

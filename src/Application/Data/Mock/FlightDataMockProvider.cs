@@ -1,5 +1,6 @@
 ﻿using ContosoTravel.Web.Application.Interfaces;
 using ContosoTravel.Web.Application.Models;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,31 +12,52 @@ namespace ContosoTravel.Web.Application.Data.Mock
 {
     public class FlightDataMockProvider : IFlightDataProvider
     {
-        public async Task<IEnumerable<FlightModel>> FindFlights(string departingFrom, string arrivingAt, DateTimeOffset desiredTime, TimeSpan offset, CancellationToken cancellationToken)
+        private readonly IAirportDataProvider _airportDataProvider;
+        AsyncLazy<IEnumerable<FlightModel>> _flightModels;
+        AsyncLazy<Dictionary<string, FlightModel>> _flightModelLookup;
+         
+        public FlightDataMockProvider(IAirportDataProvider airportDataProvider)
         {
-            return GetAll().Where(f => f.DepartingFrom.Equals(departingFrom) && f.ArrivingAt.Equals(arrivingAt) &&
-                                       f.DepartureTime > desiredTime.Subtract(offset) &&
-                                       f.DepartureTime < desiredTime.Add(offset)).OrderByDescending(f => f.DepartureTime);
+            _airportDataProvider = airportDataProvider;
+            _flightModels = new AsyncLazy<IEnumerable<FlightModel>>(async () =>
+            {
+                return await GetAll();
+            });
+
+            _flightModelLookup = new AsyncLazy<Dictionary<string, FlightModel>>(async () =>
+            {
+                return (await _flightModels).ToDictionary(flight => flight.Id, flight => flight);
+            });
         }
 
-        public IEnumerable<FlightModel> GetAll()
+        public async Task<IEnumerable<FlightModel>> FindFlights(string departingFrom, string arrivingAt, DateTimeOffset desiredTime, TimeSpan offset, CancellationToken cancellationToken)
+        {            
+            return (await _flightModels).Where(f => f.DepartingFrom.Equals(departingFrom) && f.ArrivingAt.Equals(arrivingAt) &&
+                                       f.DepartureTime > desiredTime.Subtract(offset) &&
+                                       f.DepartureTime < desiredTime.Add(offset)).OrderBy(f => f.DepartureTime);
+        }
+
+        public async Task<FlightModel> FindFlight(string flightId, CancellationToken cancellationToken)
+        {
+            return (await _flightModelLookup)[flightId];
+        }
+
+        public async Task<IEnumerable<FlightModel>> GetAll()
         {
             Random random = new Random();
-            Dictionary<string, Airport> airports = new Dictionary<string, Airport>();
-            foreach (var airport in Airport.GetAll())
-            {
-                airports[airport.AirportCode] = airport;
-            }
 
             List<FlightModel> allFlights = new List<FlightModel>();
 
             foreach (var flightTime in FlightTime.GetAll())
             {
+                var departingFrom = await _airportDataProvider.FindByCode(flightTime.DepartingFrom, CancellationToken.None);
+                var arrivingAt = await _airportDataProvider.FindByCode(flightTime.ArrivingAt, CancellationToken.None);
+
                 for (int dayOffset = 0; dayOffset < 14; dayOffset++)
                 {
                     int numberOfFlights = random.Next(5, 20);
                     DateTime today = DateTime.Now.Date.AddDays(dayOffset);
-                    TimeZoneInfo departingTimeZone = TimeZoneInfo.FindSystemTimeZoneById(airports[flightTime.DepartingFrom].TimeZone);
+                    TimeZoneInfo departingTimeZone = TimeZoneInfo.FindSystemTimeZoneById(departingFrom.TimeZone);
 
                     for (int ii = 0; ii < numberOfFlights; ii++)
                     {
@@ -49,14 +71,14 @@ namespace ContosoTravel.Web.Application.Data.Mock
 
                         allFlights.Add(new FlightModel()
                         {
-                            DepartingFromAiport = airports[flightTime.DepartingFrom],
+                            DepartingFromAiport = departingFrom,
                             DepartingFrom = flightTime.DepartingFrom,
-                            ArrivingAtAiport = airports[flightTime.ArrivingAt],
+                            ArrivingAtAiport = arrivingAt,
                             ArrivingAt = flightTime.ArrivingAt,
                             Duration = flightTime.Duration,
                             DepartureTime = departDate,
                             Cost = 1500d * random.NextDouble(),
-                            ArrivalTime = CalcLocalTime(flightTime, airports, departDate)
+                            ArrivalTime = CalcLocalTime(flightTime, arrivingAt, departDate)
 
                     });
                     }
@@ -66,10 +88,10 @@ namespace ContosoTravel.Web.Application.Data.Mock
             return allFlights;
         }
 
-        private DateTimeOffset CalcLocalTime(FlightTime flightTime, Dictionary<string, Airport> airports, DateTimeOffset departDate)
+        private DateTimeOffset CalcLocalTime(FlightTime flightTime, Airport arrivingAt, DateTimeOffset departDate)
         {
             DateTimeOffset arrivalTime = departDate.Add(flightTime.Duration);
-            TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(airports[flightTime.ArrivingAt].TimeZone);
+            TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(arrivingAt.TimeZone);
 
             if ( timeZoneInfo.IsDaylightSavingTime(arrivalTime))
             {
