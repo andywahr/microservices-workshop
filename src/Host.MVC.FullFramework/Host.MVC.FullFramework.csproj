@@ -81,7 +81,25 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Nito.AsyncEx.Context, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Context.1.1.0\lib\net46\Nito.AsyncEx.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Coordination, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Coordination.1.0.2\lib\net46\Nito.AsyncEx.Coordination.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Tasks, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Tasks.1.1.0\lib\net46\Nito.AsyncEx.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Collections.Deque, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Collections.Deque.1.0.4\lib\netstandard2.0\Nito.Collections.Deque.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Disposables, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Disposables.2.0.0\lib\netstandard2.0\Nito.Disposables.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
@@ -151,15 +169,21 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="ASPNetFullCartCookieProvider.cs" />
+    <Compile Include="Controllers\CarsController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\FlightsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="IoC\HostModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Host.MVC.Core\wwwroot\css\site.css">
+      <Link>Content\site.css</Link>
+    </Content>
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -168,7 +192,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -184,9 +207,6 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <Content Include="..\Host.MVC.Core\Views\Flights\Index.cshtml">
-      <Link>Views\Flights\Index.cshtml</Link>
-    </Content>
     <Content Include="..\Host.MVC.Core\Views\Shared\Search.cshtml">
       <Link>Views\Shared\Search.cshtml</Link>
     </Content>
@@ -200,6 +220,27 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="..\Host.MVC.Core\Views\Shared\DisplayTemplates\CarModelWithPrice.cshtml">
+      <Link>Views\Shared\DisplayTemplates\CarModelWithPrice.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Shared\DisplayTemplates\FlightModel.cshtml">
+      <Link>Views\Shared\DisplayTemplates\FlightModel.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Shared\DisplayTemplates\HotelModelWithPrice.cshtml">
+      <Link>Views\Shared\DisplayTemplates\HotelModelWithPrice.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Hotels\HotelResults.cshtml">
+      <Link>Views\Hotels\HotelResults.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Flights\FlightResults.cshtml">
+      <Link>Views\Flights\FlightResults.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Cart\Index.cshtml">
+      <Link>Views\Cart\Index.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Cars\CarResults.cshtml">
+      <Link>Views\Cars\CarResults.cshtml</Link>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -246,8 +287,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Cars\" />
-    <Folder Include="Views\Hotels\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

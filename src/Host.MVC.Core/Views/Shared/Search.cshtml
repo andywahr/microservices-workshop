@@ -6,14 +6,15 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 </div>
 
-<form asp-action="Search" class="form-inline">
-    <input asp-for="StartLocation" class="form-control col-sm-2" placeholder="@Model.StartLocationLabel" list="airPorts"/>
-    @if (Model.IncludeEndLocation)
+@using (Html.BeginForm("Search", Model.SearchMode.ToString(), FormMethod.Post, new { @class = "form-inline" }))
+{
+    <input asp-for="StartLocation" name="StartLocation" class="form-control col-sm-2" placeholder="@Model.StartLocationLabel" list="airPorts"/>
+    if (Model.IncludeEndLocation)
     {
-        <input asp-for="EndLocation" class="form-control col-sm-2" placeholder="@Model.EndLocationLabel" list="airPorts" />
+        <input asp-for="EndLocation" name="EndLocation" class="form-control col-sm-2" placeholder="@Model.EndLocationLabel" list="airPorts" />
     }
     <datalist id="airPorts">
-        @foreach ( var airport in Model.AirPorts.OrderBy(air => air.AirportName) )
+        @foreach (var airport in Model.AirPorts.OrderBy(air => air.AirportName))
         {
             <option value="@airport.AirportCode">@airport.AirportName</option>
         }
@@ -33,7 +34,7 @@
     </div>
 
     <input type="submit" value="Find @Model.SearchMode.ToString()" class="btn btn-primary" />
-</form>
+}
 
 @section Scripts {
     @{Html.RenderPartial("_ValidationScriptsPartial");}
