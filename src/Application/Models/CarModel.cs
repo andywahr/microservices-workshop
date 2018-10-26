@@ -1,4 +1,5 @@
 ﻿using ContosoTravel.Web.Application.Data.Mock;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,10 +16,34 @@ namespace ContosoTravel.Web.Application.Models
         public string Id { get; set; }
         public string Location { get; set; }
 
-        public Airport LocationAirport { get; set; }
+        public AirportModel LocationAirport { get; set; }
 
         public DateTimeOffset StartingTime { get; set; }
+        public int StartingTimeEpoc
+        {
+            get
+            {
+                return StartingTime.ToEpoch();
+            }
+            set
+            {
+
+            }
+        }
+
         public DateTimeOffset EndingTime { get; set; }
+        public int EndingTimeEpoc
+        {
+            get
+            {
+                return EndingTime.ToEpoch();
+            }
+            set
+            {
+
+            }
+        }
+
         public double Cost { get; set; }
         public CarType CarType { get; set; }
     }

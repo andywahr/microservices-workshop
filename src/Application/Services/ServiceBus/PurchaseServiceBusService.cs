@@ -35,9 +35,9 @@ namespace ContosoTravel.Web.Application.Services.ServiceBus
             });
         }
 
-        public async Task<bool> SendForProcessing(CartModel cart, CancellationToken cancellationToken)
+        public async Task<bool> SendForProcessing(string cartId, CancellationToken cancellationToken)
         {
-            PurchaseItineraryMessage purchaseItineraryMessage = new PurchaseItineraryMessage() { CartId = cart.Id };
+            PurchaseItineraryMessage purchaseItineraryMessage = new PurchaseItineraryMessage() { CartId = cartId };
 
             var client = await _serviceBusClient;
             await client.SendAsync(new Message(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(purchaseItineraryMessage))));

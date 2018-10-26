@@ -4,19 +4,7 @@ using System.Text;
 
 namespace ContosoTravel.Web.Application.Data.Mock
 {
-    public class Airport
-    {
-        public string AirportCode { get; set; }
-        public string AirportName { get; set; }
-        public string CityName { get; set; }
-        public string State { get; set; }
-        public string TimeZone { get; set; }
 
-        public static List<Airport> GetAll()
-        {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<Airport>>(BaseData.AIRPORTSJSON);
-        }
-    }
 
     public class FlightTime
     {

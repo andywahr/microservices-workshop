@@ -1,4 +1,4 @@
-﻿using ContosoTravel.Web.Application.Data.Mock;
+﻿using ContosoTravel.Web.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +9,7 @@ namespace ContosoTravel.Web.Application.Interfaces
 {
     public interface IAirportDataProvider
     {
-        Task<IEnumerable<Airport>> GetAll(CancellationToken cancellationToken);
-        Task<Airport> FindByCode(string airportCode, CancellationToken cancellationToken);
+        Task<IEnumerable<AirportModel>> GetAll(CancellationToken cancellationToken);
+        Task<AirportModel> FindByCode(string airportCode, CancellationToken cancellationToken);
     }
 }

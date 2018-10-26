@@ -1,4 +1,5 @@
-﻿using ContosoTravel.Web.Application.Interfaces;
+﻿using ContosoTravel.Web.Application.Data;
+using ContosoTravel.Web.Application.Interfaces;
 using ContosoTravel.Web.Application.Interfaces.MVC;
 using ContosoTravel.Web.Application.Models;
 using System;
@@ -13,22 +14,27 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
     {
         private readonly IItineraryDataProvider _itineraryDataProvider;
         private readonly ICartCookieProvider _cartCookieProvider;
+        private readonly CartDisplayProvider _cartDisplayProvider;
 
-        public ItineraryController(IItineraryDataProvider itineraryController, ICartCookieProvider cartCookieProvider)
+        public ItineraryController(IItineraryDataProvider itineraryController, ICartCookieProvider cartCookieProvider, CartDisplayProvider cartDisplayProvider)
         {
             _itineraryDataProvider = itineraryController;
             _cartCookieProvider = cartCookieProvider;
+            _cartDisplayProvider = cartDisplayProvider;
         }
 
         public async Task<ItineraryModel> GetByCartId(CancellationToken cancellationToken)
         {
             string cookieId = _cartCookieProvider.GetCartCookie();
-            return await _itineraryDataProvider.FindItinerary(cookieId, cancellationToken);
+            var itinerary = await _itineraryDataProvider.FindItinerary(cookieId, cancellationToken);
+            return await _cartDisplayProvider.LoadFullCart<ItineraryModel>(itinerary, cancellationToken);
+
         }
 
         public async Task<ItineraryModel> GetByRecordLocator(string recordLocator, CancellationToken cancellationToken)
         {
-            return await _itineraryDataProvider.GetItinerary(recordLocator, cancellationToken);
+            var itinerary = await _itineraryDataProvider.GetItinerary(recordLocator, cancellationToken);
+            return await _cartDisplayProvider.LoadFullCart<ItineraryModel>(itinerary, cancellationToken);
         }
     }
 }

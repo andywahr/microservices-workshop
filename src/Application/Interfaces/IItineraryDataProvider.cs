@@ -9,8 +9,8 @@ namespace ContosoTravel.Web.Application.Interfaces
 {
     public interface IItineraryDataProvider
     {
-        Task<ItineraryModel> FindItinerary(string cartId, CancellationToken cancellationToken);
-        Task<ItineraryModel> GetItinerary(string recordLocator, CancellationToken cancellationToken);
-        Task UpsertItinerary(ItineraryModel itinerary, CancellationToken cancellationToken);
+        Task<ItineraryPersistenceModel> FindItinerary(string cartId, CancellationToken cancellationToken);
+        Task<ItineraryPersistenceModel> GetItinerary(string recordLocator, CancellationToken cancellationToken);
+        Task UpsertItinerary(ItineraryPersistenceModel itinerary, CancellationToken cancellationToken);
     }
 }

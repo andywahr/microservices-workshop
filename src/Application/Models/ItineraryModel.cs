@@ -8,4 +8,9 @@ namespace ContosoTravel.Web.Application.Models
     {
         public string RecordLocator { get; set; }
     }
+
+    public class ItineraryPersistenceModel : CartPersistenceModel
+    {
+        public string RecordLocator { get; set; }
+    }
 }

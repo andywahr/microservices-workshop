@@ -5,26 +5,27 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using ContosoTravel.Web.Application.Models;
 
 namespace ContosoTravel.Web.Application.Data.Mock
 {
     public class AirportDataMockProvider : IAirportDataProvider
     {
-        private List<Airport> _airports;
-        private Dictionary<string, Airport> _airportLookup;
+        private List<AirportModel> _airports;
+        private Dictionary<string, AirportModel> _airportLookup;
 
         public AirportDataMockProvider()
         {
-            _airports = Airport.GetAll();
+            _airports = AirportModel.GetAll();
             _airportLookup = _airports.ToDictionary(air => air.AirportCode, air => air);
         }
 
-        public async Task<Airport> FindByCode(string airportCode, CancellationToken cancellationToken)
+        public async Task<AirportModel> FindByCode(string airportCode, CancellationToken cancellationToken)
         {
             return await Task.FromResult(_airportLookup[airportCode]);
         }
 
-        public async Task<IEnumerable<Airport>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<AirportModel>> GetAll(CancellationToken cancellationToken)
         {
             return await Task.FromResult(_airports);
         }

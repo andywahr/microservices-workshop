@@ -9,10 +9,10 @@ namespace ContosoTravel.Web.Application.Interfaces
 {
     public interface ICartDataProvider
     {
-        Task<CartModel> GetCart(string cartId, CancellationToken cancellationToken);
-        Task<CartModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken);
-        Task<CartModel> UpsertCartCar(string cartId, string carId, double numberOfDays, CancellationToken cancellationToken);
-        Task<CartModel> UpsertCartHotel(string cartId, string hotelId, int numberOfDays, CancellationToken cancellationToken);
+        Task<CartPersistenceModel> GetCart(string cartId, CancellationToken cancellationToken);
+        Task<CartPersistenceModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken);
+        Task<CartPersistenceModel> UpsertCartCar(string cartId, string carId, double numberOfDays, CancellationToken cancellationToken);
+        Task<CartPersistenceModel> UpsertCartHotel(string cartId, string hotelId, int numberOfDays, CancellationToken cancellationToken);
         Task DeleteCart(string cartId, CancellationToken cancellationToken);
     }
 }

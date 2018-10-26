@@ -1,4 +1,5 @@
-﻿using ContosoTravel.Web.Application.Interfaces;
+﻿using ContosoTravel.Web.Application.Data;
+using ContosoTravel.Web.Application.Interfaces;
 using ContosoTravel.Web.Application.Interfaces.MVC;
 using ContosoTravel.Web.Application.Models;
 using System.Threading;
@@ -12,13 +13,15 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
         private readonly ICartCookieProvider _cartCookieProvider;
         private readonly IItineraryController _itineraryController;
         private readonly IPurchaseService _purchaseService;
+        private readonly CartDisplayProvider _cartDisplayProvider;
 
-        public CartController(ICartDataProvider cartDataProvider, ICartCookieProvider cartCookieProvider, IItineraryController itineraryController, IPurchaseService purchaseService)
+        public CartController(ICartDataProvider cartDataProvider, ICartCookieProvider cartCookieProvider, IItineraryController itineraryController, IPurchaseService purchaseService, CartDisplayProvider cartDisplayProvider)
         {
             _cartDataProvider = cartDataProvider;
             _cartCookieProvider = cartCookieProvider;
             _itineraryController = itineraryController;
             _purchaseService = purchaseService;
+            _cartDisplayProvider = cartDisplayProvider;
         }
 
         // Make sure to return an empty cart if there isn't a purchased Itinerary 
@@ -27,15 +30,17 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
             string cartId = _cartCookieProvider.GetCartCookie();
             var cart = await _cartDataProvider.GetCart(cartId, cancellationToken);
 
-            if ( cart == null )
+            if (cart != null)
             {
-                if ( (await _itineraryController.GetByCartId(cancellationToken)) == null )
-                {
-                    cart = new CartModel() { Id = cartId };
-                }
+                return await _cartDisplayProvider.LoadFullCart<CartModel>(cart, cancellationToken);
+            }
+            
+            if ( (await _itineraryController.GetByCartId(cancellationToken)) == null )
+            {
+                return new CartModel() { Id = cartId };
             }
 
-            return cart;
+            return null;
         }
 
         public async Task<bool> Purchase(CancellationToken cancellationToken)
@@ -48,7 +53,7 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
                 return false;
             }
 
-            return await _purchaseService.SendForProcessing(cart, cancellationToken);
+            return await _purchaseService.SendForProcessing(cart.Id, cancellationToken);
         }
     }
 }

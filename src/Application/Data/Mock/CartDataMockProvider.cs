@@ -10,73 +10,63 @@ namespace ContosoTravel.Web.Application.Data.Mock
 {
     public class CartDataMockProvider : ICartDataProvider
     {
-        public Dictionary<string, CartModel> _carts = new Dictionary<string, CartModel>();
-        private readonly IFlightDataProvider _flightDataProvider;
-        private readonly ICarDataProvider _carDataProvider;
-        private readonly IHotelDataProvider _hotelDataProvider;
+        public Dictionary<string, CartPersistenceModel> _carts = new Dictionary<string, CartPersistenceModel>();
 
-        public CartDataMockProvider(IFlightDataProvider flightDataProvider, ICarDataProvider carDataProvider, IHotelDataProvider hotelDataProvider)
-        {
-            _flightDataProvider = flightDataProvider;
-            _carDataProvider = carDataProvider;
-            _hotelDataProvider = hotelDataProvider;
-        }
 
-        public async Task<CartModel> GetCart(string cartId, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> GetCart(string cartId, CancellationToken cancellationToken)
         {
-            CartModel cart;
+            CartPersistenceModel cart;
             _carts.TryGetValue(cartId, out cart);
             return await Task.FromResult(cart);
         }
 
-        public async Task<CartModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken)
         {
-            CartModel cart;
+            CartPersistenceModel cart;
 
             if ( !_carts.TryGetValue(cartId, out cart))
             {
-                cart = new CartModel() { Id = cartId };
+                cart = new CartPersistenceModel() { Id = cartId };
             }
 
-            cart.DepartingFlight = await _flightDataProvider.FindFlight(departingFlightId, cancellationToken);
-            cart.ReturningFlight = await _flightDataProvider.FindFlight(returningFlightId, cancellationToken);
+            cart.DepartingFlight = departingFlightId;
+            cart.ReturningFlight = returningFlightId;
 
             _carts[cartId] = cart;
 
             return await Task.FromResult(cart);
         }
 
-        public async Task<CartModel> UpsertCartCar(string cartId, string carId, double numberOfDays, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartCar(string cartId, string carId, double numberOfDays, CancellationToken cancellationToken)
         {
-            CartModel cart;
+            CartPersistenceModel cart;
 
             if ( !_carts.TryGetValue(cartId, out cart))
             {
-                cart = new CartModel() { Id = cartId };
+                cart = new CartPersistenceModel() { Id = cartId };
             }
 
-            cart.CarReservation = await _carDataProvider.FindCar(carId, cancellationToken);
+            cart.CarReservation = carId;
             cart.CarReservationDuration = numberOfDays;
             _carts[cartId] = cart;
 
             return await Task.FromResult(cart);
 
         }
-        public async Task<CartModel> UpsertCartHotel(string cartId, string hotelId, int numberOfDays, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartHotel(string cartId, string hotelId, int numberOfDays, CancellationToken cancellationToken)
         {
-            CartModel cart;
+            CartPersistenceModel cart;
 
             if (!_carts.TryGetValue(cartId, out cart))
             {
-                cart = new CartModel() { Id = cartId };
+                cart = new CartPersistenceModel() { Id = cartId };
             }
 
-            cart.HotelReservation = await _hotelDataProvider.FindHotel(hotelId, cancellationToken);
+            cart.HotelReservation = hotelId;
             cart.HotelReservationDuration = numberOfDays;
             _carts[cartId] = cart;
 
             return await Task.FromResult(cart);
-
         }
 
         public async Task DeleteCart(string cartId, CancellationToken cancellationToken)

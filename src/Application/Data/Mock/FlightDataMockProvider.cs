@@ -88,7 +88,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
             return allFlights;
         }
 
-        private DateTimeOffset CalcLocalTime(FlightTime flightTime, Airport arrivingAt, DateTimeOffset departDate)
+        private DateTimeOffset CalcLocalTime(FlightTime flightTime, AirportModel arrivingAt, DateTimeOffset departDate)
         {
             DateTimeOffset arrivalTime = departDate.Add(flightTime.Duration);
             TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(arrivingAt.TimeZone);

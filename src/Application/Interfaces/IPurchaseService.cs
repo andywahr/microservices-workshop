@@ -6,6 +6,6 @@ namespace ContosoTravel.Web.Application.Interfaces
 {
     public interface IPurchaseService
     {
-        Task<bool> SendForProcessing(CartModel cart, CancellationToken cancellationToken);
+        Task<bool> SendForProcessing(string cartId, CancellationToken cancellationToken);
     }
 }

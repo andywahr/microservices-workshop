@@ -16,7 +16,7 @@ namespace ContosoTravel.Web.Host.MVC.FullFramework
             ContainerBuilder builder = new ContainerBuilder();
 
             builder.RegisterControllers(thisAssembly);
-            builder.RegisterAssemblyModules(thisAssembly, typeof(Application.Features).Assembly);
+            builder.RegisterAssemblyModules(thisAssembly, typeof(Application.Configuration).Assembly);
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

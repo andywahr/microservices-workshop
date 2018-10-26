@@ -11,11 +11,13 @@ namespace ContosoTravel.Web.Application.IoC
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<CartDisplayProvider>().AsSelf().SingleInstance();
+
             switch (Configuration.DataType)
             {
                 case DataType.Mock:
                     builder.RegisterType<Data.Mock.AirportDataMockProvider>()
-                           .As<IAirportDataProvider>()
+                           .As<ICarDataProvider>()
                            .SingleInstance();
 
                     builder.RegisterType<Data.Mock.FlightDataMockProvider>()

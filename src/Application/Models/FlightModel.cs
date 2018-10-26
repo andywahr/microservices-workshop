@@ -16,11 +16,33 @@ namespace ContosoTravel.Web.Application.Models
         public string DepartingFrom { get; set; }
         public string ArrivingAt { get; set; }
         public DateTimeOffset DepartureTime { get; set; }
+        public int DepartureTimeEpoc
+        {
+            get
+            {
+                return DepartureTime.ToEpoch();
+            }
+            set
+            {
+
+            }
+        }
         public TimeSpan Duration { get; set; }
         public DateTimeOffset ArrivalTime { get; set; }
+        public int ArrivalTimeEpoc
+        {
+            get
+            {
+                return ArrivalTime.ToEpoch();
+            }
+            set
+            {
 
-        public Airport DepartingFromAiport { get; set; }
-        public Airport ArrivingAtAiport { get; set; }
+            }
+        }
+
+        public AirportModel DepartingFromAiport { get; set; }
+        public AirportModel ArrivingAtAiport { get; set; }
         public double Cost { get; set; }
     }
 }

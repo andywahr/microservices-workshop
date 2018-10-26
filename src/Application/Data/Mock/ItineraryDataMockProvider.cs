@@ -11,21 +11,21 @@ namespace ContosoTravel.Web.Application.Data.Mock
 {
     public class ItineraryDataMockProvider : IItineraryDataProvider
     {
-        public Dictionary<string, ItineraryModel> _itineraries = new Dictionary<string, ItineraryModel>();
+        public Dictionary<string, ItineraryPersistenceModel> _itineraries = new Dictionary<string, ItineraryPersistenceModel>();
 
-        public async Task<ItineraryModel> FindItinerary(string cartId, CancellationToken cancellationToken)
+        public async Task<ItineraryPersistenceModel> FindItinerary(string cartId, CancellationToken cancellationToken)
         {
             return await Task.FromResult(_itineraries.Values.FirstOrDefault(itinerary => itinerary.Id.Equals(cartId, StringComparison.OrdinalIgnoreCase)));
         }
 
-        public async Task<ItineraryModel> GetItinerary(string recordLocator, CancellationToken cancellationToken)
+        public async Task<ItineraryPersistenceModel> GetItinerary(string recordLocator, CancellationToken cancellationToken)
         {
-            ItineraryModel _itinerary;
+            ItineraryPersistenceModel _itinerary;
             _itineraries.TryGetValue(recordLocator, out _itinerary);
             return await Task.FromResult(_itinerary);
         }
 
-        public async Task UpsertItinerary(ItineraryModel itinerary, CancellationToken cancellationToken)
+        public async Task UpsertItinerary(ItineraryPersistenceModel itinerary, CancellationToken cancellationToken)
         {
             _itineraries[itinerary.RecordLocator] = itinerary;
             await Task.Delay(0);

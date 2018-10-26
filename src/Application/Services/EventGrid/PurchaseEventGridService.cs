@@ -59,9 +59,9 @@ namespace ContosoTravel.Web.Application.Services.EventGrid
             }
         }
 
-        public async Task<bool> SendForProcessing(CartModel cart, CancellationToken cancellationToken)
+        public async Task<bool> SendForProcessing(string cartId, CancellationToken cancellationToken)
         {
-            PurchaseItineraryMessage purchaseItineraryMessage = new PurchaseItineraryMessage() { CartId = cart.Id };
+            PurchaseItineraryMessage purchaseItineraryMessage = new PurchaseItineraryMessage() { CartId = cartId };
 
             List<EventGridEvent> events = new List<EventGridEvent>();
 
@@ -69,7 +69,7 @@ namespace ContosoTravel.Web.Application.Services.EventGrid
             {
                 Id = Guid.NewGuid().ToString(),
                 EventType = "ContosoTravel.Web.Application.Messages.PurchaseItineraryMessage",
-                Data = new PurchaseItineraryMessage() { CartId = cart.Id },
+                Data = new PurchaseItineraryMessage() { CartId = cartId },
                 EventTime = DateTime.UtcNow,
                 Subject = "PurchaseItinerary",
                 DataVersion = "1.0"

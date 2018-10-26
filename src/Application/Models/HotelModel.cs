@@ -15,10 +15,33 @@ namespace ContosoTravel.Web.Application.Models
         public string Id { get; set; }
         public string Location { get; set; }
 
-        public Airport LocationAirport { get; set; }
+        public AirportModel LocationAirport { get; set; }
 
         public DateTimeOffset StartingTime { get; set; }
+        public int StartingTimeEpoc
+        {
+            get
+            {
+                return StartingTime.ToEpoch();
+            }
+            set
+            {
+
+            }
+        }
+
         public DateTimeOffset EndingTime { get; set; }
+        public int EndingTimeEpoc
+        {
+            get
+            {
+                return EndingTime.ToEpoch();
+            }
+            set
+            {
+
+            }
+        }
         public double Cost { get; set; }
         public HotelRoomType RoomType { get; set; }
     }

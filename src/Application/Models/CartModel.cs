@@ -20,4 +20,15 @@ namespace ContosoTravel.Web.Application.Models
         public int HotelReservationDuration { get; set; }
         public double TotalCost => (DepartingFlight?.Cost ?? 0d) + (ReturningFlight?.Cost ?? 0d) + (CarReservation?.Cost ?? 0d) * CarReservationDuration + (HotelReservation?.Cost ?? 0d) * HotelReservationDuration;
     }
+
+    public class CartPersistenceModel
+    {
+        public string Id { get; set; }
+        public string DepartingFlight { get; set; }
+        public string ReturningFlight { get; set; }
+        public string CarReservation { get; set; }
+        public double CarReservationDuration { get; set; }
+        public string HotelReservation { get; set; }
+        public int HotelReservationDuration { get; set; }
+    }
 }
