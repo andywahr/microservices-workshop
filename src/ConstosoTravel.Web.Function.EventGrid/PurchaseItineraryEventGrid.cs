@@ -20,8 +20,7 @@ namespace ContosoTravel.Web.Function.EventGrid
         static PurchaseItineraryEventGrid()
         {
             var config = new ConfigurationBuilder().AddEnvironmentVariables().Build();
-            Configuration.DataType = (DataType)Enum.Parse(typeof(DataType), config["DataType"]);
-            Configuration.ServicesType = (ServicesType)Enum.Parse(typeof(ServicesType), config["ServicesType"]);
+            Web.Application.Configuration.PopulateFromConfig((name) => config[name]);
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterAssemblyModules(typeof(Configuration).Assembly);
             Container = builder.Build();

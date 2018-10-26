@@ -14,8 +14,7 @@ namespace ContosoTravel.Web.Host.MVC.FullFramework
     {
         protected void Application_Start()
         {
-            Features.DataType = (DataType)Enum.Parse(typeof(DataType), ConfigurationManager.AppSettings["DataType"]);
-            Features.ServicesType = (ServicesType)Enum.Parse(typeof(ServicesType), ConfigurationManager.AppSettings["ServicesType"]);
+            Web.Application.Configuration.PopulateFromConfig((name) => ConfigurationManager.AppSettings[name]);
             Web.Application.Models.SiteModel.SiteTitle = "Contoso Travel - .Net Framework";
             AutofacConfig.RegisterContainer();
             AreaRegistration.RegisterAllAreas();

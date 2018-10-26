@@ -19,7 +19,7 @@ namespace ContosoTravel.Web.Application.Services
             string msiKey = await tokenProvider.GetAccessTokenAsync("https://management.azure.com/");
 
             var loginInfo = new MSILoginInformation(MSIResourceType.VirtualMachine);
-            var cred = new AzureCredentials(new TokenCredentials(msiKey), new TokenCredentials(msiKey), "72f988bf-86f1-41af-91ab-2d7cd011db47", AzureEnvironment.AzureGlobalCloud);
+            var cred = new AzureCredentials(new TokenCredentials(msiKey), new TokenCredentials(msiKey), Configuration.TenantId, AzureEnvironment.AzureGlobalCloud);
             return Azure
                 .Configure()
                 .WithLogLevel(HttpLoggingDelegatingHandler.Level.BodyAndHeaders)

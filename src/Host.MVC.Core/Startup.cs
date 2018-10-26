@@ -20,13 +20,7 @@ namespace ContosoTravel.Web.Host.MVC.Core
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Application.Configuration.DataType = Enum.Parse<DataType>(Configuration["DataType"]);
-            Application.Configuration.ServicesType = Enum.Parse<ServicesType>(Configuration["ServicesType"]);
-            Application.Configuration.ServicesMiddlewareAccountName = Configuration["ServicesMiddlewareAccountName"];
-            Application.Configuration.DataAccountName = Configuration["DataAccountName"];
-            Application.Configuration.SubscriptionId = Configuration["SubscriptionId"];
-            Application.Configuration.ResourceGroupName = Configuration["ResourceGroupName"];
-            Application.Configuration.AzureRegion = Configuration["AzureRegion"];
+            Web.Application.Configuration.PopulateFromConfig((name) => Configuration[name]);
         }
 
         public IConfiguration Configuration { get; }
