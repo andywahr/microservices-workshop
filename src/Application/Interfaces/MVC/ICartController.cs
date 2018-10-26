@@ -10,5 +10,6 @@ namespace ContosoTravel.Web.Application.Interfaces.MVC
     public interface ICartController
     {
         Task<CartModel> Index(CancellationToken cancellationToken);
+        Task<bool> Purchase(CancellationToken cancellationToken);
     }
 }

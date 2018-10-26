@@ -38,14 +38,6 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
 
         public async Task<HotelReservationModel> Search(SearchModel searchRequest, CancellationToken cancellationToken)
         {
-            string cartId = _cartCookieProvider.GetCartCookie();
-            if (string.IsNullOrEmpty(cartId))
-            {
-                CartModel currentCart = new CartModel();
-                cartId = currentCart.Id;
-                _cartCookieProvider.SetCartCookie(cartId);
-            }
-
             HotelReservationModel carReservation = new HotelReservationModel() { NumberOfDays = (int)Math.Ceiling(searchRequest.EndDate.Subtract(searchRequest.StartDate).TotalDays) };
             carReservation.Hotels = await _hotelDataProvider.FindHotels(searchRequest.StartLocation, searchRequest.StartDate, cancellationToken);
             return carReservation;
@@ -54,7 +46,12 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
         public async Task Purchase(HotelReservationModel hotel, CancellationToken cancellationToken)
         {
             string cartId = _cartCookieProvider.GetCartCookie();
-            await _cartDataProvider.UpsertCartHotel(cartId, hotel.SelectedHotel, hotel.NumberOfDays, cancellationToken);
+            var updatedCart = await _cartDataProvider.UpsertCartHotel(cartId, hotel.SelectedHotel, hotel.NumberOfDays, cancellationToken);
+
+            if (string.IsNullOrEmpty(cartId))
+            {
+                _cartCookieProvider.SetCartCookie(updatedCart.Id);
+            }
         }
     }
 }

@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host.MVC.FullFramework", "H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host.MVC.Core", "Host.MVC.Core\Host.MVC.Core.csproj", "{D24896B1-107D-46C5-B2A4-5D733C9DDC13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Function.EventGrid", "ConstosoTravel.Web.Function.EventGrid\Function.EventGrid.csproj", "{C9858D1F-69A8-4037-BF1F-C1FCE576FDE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContosoTravel.Web.Functions.ServiceBus", "ContosoTravel.Web.Functions.ServiceBus\ContosoTravel.Web.Functions.ServiceBus.csproj", "{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{D24896B1-107D-46C5-B2A4-5D733C9DDC13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D24896B1-107D-46C5-B2A4-5D733C9DDC13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D24896B1-107D-46C5-B2A4-5D733C9DDC13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9858D1F-69A8-4037-BF1F-C1FCE576FDE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9858D1F-69A8-4037-BF1F-C1FCE576FDE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9858D1F-69A8-4037-BF1F-C1FCE576FDE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9858D1F-69A8-4037-BF1F-C1FCE576FDE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

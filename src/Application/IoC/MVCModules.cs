@@ -23,6 +23,10 @@ namespace ContosoTravel.Web.Application.IoC
                    .As<ICartController>()
                    .SingleInstance();
 
+            builder.RegisterType<Controllers.MVC.ItineraryController>()
+                   .As<IItineraryController>()
+                   .SingleInstance();
+
         }
     }
 }

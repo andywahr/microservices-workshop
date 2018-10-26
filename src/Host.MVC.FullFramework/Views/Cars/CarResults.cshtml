@@ -1,10 +1,13 @@
 ﻿@model ContosoTravel.Web.Application.Models.CarReservationModel
+@{
+    ViewData["Title"] = $"Cars";
+}
 
 <h2>Car Search Results</h2>
 
 @using (Html.BeginForm("Purchase", "Cars", FormMethod.Post, new { @class = "form-inline" }))
 {
-        <div>
+    <div>
         @foreach (var car in Model.Cars)
         {
             var displayCar = new ContosoTravel.Web.Application.Models.CarModelWithPrice(car, Model.NumberOfDays);

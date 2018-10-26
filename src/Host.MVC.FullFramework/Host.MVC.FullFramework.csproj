@@ -174,6 +174,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\FlightsController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
+    <Compile Include="Controllers\ItineraryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,6 +241,15 @@
     </Content>
     <Content Include="..\Host.MVC.Core\Views\Cars\CarResults.cshtml">
       <Link>Views\Cars\CarResults.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Cart\FailedToPurchase.cshtml">
+      <Link>Views\Cart\FailedToPurchase.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Itinerary\Index.cshtml">
+      <Link>Views\Itinerary\Index.cshtml</Link>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Shared\DisplayTemplates\CartModel.cshtml">
+      <Link>Views\Shared\DisplayTemplates\CartModel.cshtml</Link>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

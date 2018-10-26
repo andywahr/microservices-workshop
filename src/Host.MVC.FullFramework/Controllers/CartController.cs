@@ -16,7 +16,26 @@ namespace ContosoTravel.Web.Host.MVC.FullFramework.Controllers
 
         public async Task<ActionResult> Index(CancellationToken cancellationToken)
         {
-            return View(await _cartController.Index(cancellationToken));
+            var cart = await _cartController.Index(cancellationToken);
+
+            if (cart == null)
+            {
+                return RedirectToAction("Index", "Itinerary");
+            }
+
+            return View(cart);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Purchase(CancellationToken cancellationToken)
+        {
+            if (await _cartController.Purchase(cancellationToken))
+            {
+                return RedirectToAction("Index", "Itinerary");
+            }
+
+            return View("FailedToPurchase");
         }
     }
 }

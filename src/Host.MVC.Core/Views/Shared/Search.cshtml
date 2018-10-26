@@ -1,4 +1,7 @@
 ﻿@model ContosoTravel.Web.Application.Models.SearchModel
+@{
+    ViewData["Title"] = $"Search {Model.SearchMode.ToString()}";
+}
 
 <h4>Search For @Model.SearchMode.ToString()</h4>
 <hr />
@@ -8,7 +11,7 @@
 
 @using (Html.BeginForm("Search", Model.SearchMode.ToString(), FormMethod.Post, new { @class = "form-inline" }))
 {
-    <input asp-for="StartLocation" name="StartLocation" class="form-control col-sm-2" placeholder="@Model.StartLocationLabel" list="airPorts"/>
+    <input asp-for="StartLocation" name="StartLocation" class="form-control col-sm-2" placeholder="@Model.StartLocationLabel" list="airPorts" />
     if (Model.IncludeEndLocation)
     {
         <input asp-for="EndLocation" name="EndLocation" class="form-control col-sm-2" placeholder="@Model.EndLocationLabel" list="airPorts" />
@@ -20,14 +23,14 @@
         }
     </datalist>
     <div class='input-group date md-3' id='StartDate'>
-        <input type='@(Model.SearchMode == ContosoTravel.Web.Application.Models.SearchMode.Hotels ? "date" : "datetime-local")' class="form-control" placeholder="@Model.StartDateLabel" name="StartDate"/>
+        <input type='@(Model.SearchMode == ContosoTravel.Web.Application.Models.SearchMode.Hotels ? "date" : "datetime-local")' class="form-control" placeholder="@Model.StartDateLabel" name="StartDate" />
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
     </div>
 
     <div class='input-group date md-3' id='EndDate'>
-        <input type='@(Model.SearchMode == ContosoTravel.Web.Application.Models.SearchMode.Hotels ? "date" : "datetime-local")' class="form-control" placeholder="@Model.EndDateLabel" name="EndDate"/>
+        <input type='@(Model.SearchMode == ContosoTravel.Web.Application.Models.SearchMode.Hotels ? "date" : "datetime-local")' class="form-control" placeholder="@Model.EndDateLabel" name="EndDate" />
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>

@@ -20,6 +20,13 @@ namespace ContosoTravel.Web.Host.MVC.Core
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Application.Configuration.DataType = Enum.Parse<DataType>(Configuration["DataType"]);
+            Application.Configuration.ServicesType = Enum.Parse<ServicesType>(Configuration["ServicesType"]);
+            Application.Configuration.ServicesMiddlewareAccountName = Configuration["ServicesMiddlewareAccountName"];
+            Application.Configuration.DataAccountName = Configuration["DataAccountName"];
+            Application.Configuration.SubscriptionId = Configuration["SubscriptionId"];
+            Application.Configuration.ResourceGroupName = Configuration["ResourceGroupName"];
+            Application.Configuration.AzureRegion = Configuration["AzureRegion"];
         }
 
         public IConfiguration Configuration { get; }
@@ -42,7 +49,7 @@ namespace ContosoTravel.Web.Host.MVC.Core
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyModules(typeof(Startup).Assembly, typeof(Constants).Assembly);
+            builder.RegisterAssemblyModules(typeof(Startup).Assembly, typeof(Configuration).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

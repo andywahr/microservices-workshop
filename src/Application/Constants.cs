@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ContosoTravel.Web.Application
 {
-    public class Constants
+    public static class Constants
     {
+        public const string QUEUENAME = "PurchaseItinerary";
     }
 }

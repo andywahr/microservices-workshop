@@ -41,14 +41,6 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
         }
         public async Task<FlightReservationModel> Search(SearchModel searchRequest, CancellationToken cancellationToken)
         {
-            string cartId = _cartCookieProvider.GetCartCookie();
-            if (string.IsNullOrEmpty(cartId))
-            {
-                CartModel currentCart = new CartModel();
-                cartId = currentCart.Id;
-                _cartCookieProvider.SetCartCookie(cartId);
-            }
-
             FlightReservationModel roundTrip = new FlightReservationModel();
             roundTrip.DepartingFlights = await _flightDataProvider.FindFlights(searchRequest.StartLocation, searchRequest.EndLocation, searchRequest.StartDate, THREEHOURSBEFOREORAFTER, cancellationToken);
             roundTrip.ReturningFlights = await _flightDataProvider.FindFlights(searchRequest.EndLocation, searchRequest.StartLocation, searchRequest.EndDate, THREEHOURSBEFOREORAFTER, cancellationToken);
@@ -58,7 +50,12 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
         public async Task Purchase(FlightReservationModel flight, CancellationToken cancellationToken)
         {
             string cartId = _cartCookieProvider.GetCartCookie();
-            await _cartDataProvider.UpsertCartFlights(cartId, flight.SelectedDepartingFlight, flight.SelectedReturningFlight, cancellationToken);
+            var updatedCart = await _cartDataProvider.UpsertCartFlights(cartId, flight.SelectedDepartingFlight, flight.SelectedReturningFlight, cancellationToken);
+
+            if ( string.IsNullOrEmpty(cartId))
+            {
+                _cartCookieProvider.SetCartCookie(updatedCart.Id);
+            }
         }
 
     }

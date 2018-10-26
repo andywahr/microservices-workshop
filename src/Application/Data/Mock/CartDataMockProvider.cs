@@ -24,7 +24,9 @@ namespace ContosoTravel.Web.Application.Data.Mock
 
         public async Task<CartModel> GetCart(string cartId, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(_carts[cartId]);
+            CartModel cart;
+            _carts.TryGetValue(cartId, out cart);
+            return await Task.FromResult(cart);
         }
 
         public async Task<CartModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken)
@@ -33,7 +35,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
 
             if ( !_carts.TryGetValue(cartId, out cart))
             {
-                cart = new CartModel();
+                cart = new CartModel() { Id = cartId };
             }
 
             cart.DepartingFlight = await _flightDataProvider.FindFlight(departingFlightId, cancellationToken);
@@ -50,7 +52,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
 
             if ( !_carts.TryGetValue(cartId, out cart))
             {
-                cart = new CartModel();
+                cart = new CartModel() { Id = cartId };
             }
 
             cart.CarReservation = await _carDataProvider.FindCar(carId, cancellationToken);
@@ -66,7 +68,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
 
             if (!_carts.TryGetValue(cartId, out cart))
             {
-                cart = new CartModel();
+                cart = new CartModel() { Id = cartId };
             }
 
             cart.HotelReservation = await _hotelDataProvider.FindHotel(hotelId, cancellationToken);
@@ -75,6 +77,11 @@ namespace ContosoTravel.Web.Application.Data.Mock
 
             return await Task.FromResult(cart);
 
+        }
+
+        public async Task DeleteCart(string cartId, CancellationToken cancellationToken)
+        {
+            await Task.FromResult(_carts.Remove(cartId));
         }
     }
 }
