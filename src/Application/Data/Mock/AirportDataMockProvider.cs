@@ -9,7 +9,7 @@ using ContosoTravel.Web.Application.Models;
 
 namespace ContosoTravel.Web.Application.Data.Mock
 {
-    public class AirportDataMockProvider : IAirportDataProvider
+    public class AirportDataMockProvider : IAirportDataProvider, IGetAllProvider<AirportModel>
     {
         private List<AirportModel> _airports;
         private Dictionary<string, AirportModel> _airportLookup;

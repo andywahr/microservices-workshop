@@ -1,5 +1,6 @@
 ﻿using ContosoTravel.Web.Application.Data.Mock;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,7 @@ namespace ContosoTravel.Web.Application.Models
             Id = Guid.NewGuid().ToString("n");
         }
 
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         public string Location { get; set; }
 
@@ -45,6 +47,7 @@ namespace ContosoTravel.Web.Application.Models
         }
 
         public double Cost { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public CarType CarType { get; set; }
     }
 

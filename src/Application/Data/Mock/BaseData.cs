@@ -23,35 +23,35 @@ namespace ContosoTravel.Web.Application.Data.Mock
     {
         #region Airports
         public const string AIRPORTSJSON = @"
-[{airportCode:'ATL', airportName:'Hartsfield–Jackson Atlanta International Airport', cityName:'Atlanta',  state:'GA', timeZone:'Eastern Standard Time'},
-{airportCode:'ORD', airportName:'O\'Hare International Airport', cityName:'Chicago',  state:'IL', timeZone:'Central Standard Time'},
-{airportCode:'DFW', airportName:'Dallas/Fort Worth International Airport', cityName:'Dallas/Fort Worth',  state:'TX', timeZone:'Central Standard Time'},
-{airportCode:'DEN', airportName:'Denver International Airport', cityName:'Denver',  state:'CO', timeZone:'Mountain Standard Time'},
-{airportCode:'JFK', airportName:'John F. Kennedy International Airport', cityName:'New York',  state:'NY', timeZone:'Eastern Standard Time'},
-{airportCode:'LAS', airportName:'McCarran International Airport', cityName:'Las Vegas',  state:'NV', timeZone:'Pacific Standard Time'},
-{airportCode:'SEA', airportName:'Seattle–Tacoma International Airport', cityName:'Seattle/Tacoma',  state:'WA', timeZone:'Pacific Standard Time'},
-{airportCode:'MCO', airportName:'Orlando International Airport', cityName:'Orlando',  state:'FL', timeZone:'Eastern Standard Time'}]
+[{id:'ATL', airportName:'Hartsfield–Jackson Atlanta International Airport', cityName:'Atlanta',  state:'GA', timeZone:'Eastern Standard Time'},
+{id:'ORD', airportName:'O\'Hare International Airport', cityName:'Chicago',  state:'IL', timeZone:'Central Standard Time'},
+{id:'DFW', airportName:'Dallas/Fort Worth International Airport', cityName:'Dallas/Fort Worth',  state:'TX', timeZone:'Central Standard Time'},
+{id:'DEN', airportName:'Denver International Airport', cityName:'Denver',  state:'CO', timeZone:'Mountain Standard Time'},
+{id:'JFK', airportName:'John F. Kennedy International Airport', cityName:'New York',  state:'NY', timeZone:'Eastern Standard Time'},
+{id:'LAS', airportName:'McCarran International Airport', cityName:'Las Vegas',  state:'NV', timeZone:'Pacific Standard Time'},
+{id:'SEA', airportName:'Seattle–Tacoma International Airport', cityName:'Seattle/Tacoma',  state:'WA', timeZone:'Pacific Standard Time'},
+{id:'MCO', airportName:'Orlando International Airport', cityName:'Orlando',  state:'FL', timeZone:'Eastern Standard Time'}]
 ";
 
 /*
-{airportCode:'PHX', airportName:'Phoenix Sky Harbor International Airport', cityName:'Phoenix',  state:'AZ'},
-{airportCode:'MIA', airportName:'Miami International Airport', cityName:'Miami',  state:'FL'},
-{airportCode:'IAH', airportName:'George Bush Intercontinental Airport', cityName:'Houston',  state:'TX'},
-{airportCode:'BOS', airportName:'Logan International Airport', cityName:'Boston',  state:'MA'},
-{airportCode:'MSP', airportName:'Minneapolis–Saint Paul International Airport', cityName:'Minneapolis/St. Paul',  state:'MN'},
-{airportCode:'DTW', airportName:'Detroit Metropolitan Airport', cityName:'Detroit',  state:'MI'},
-{airportCode:'FLL', airportName:'Fort Lauderdale–Hollywood International Airport', cityName:'Fort Lauderdale',  state:'FL'},
-{airportCode:'PHL', airportName:'Philadelphia International Airport', cityName:'Philadelphia',  state:'PA'},
-{airportCode:'LGA', airportName:'LaGuardia Airport', cityName:'New York',  state:'NY'},
-{airportCode:'BWI', airportName:'Baltimore–Washington International Airport', cityName:'Baltimore',  state:'MD'},
-{airportCode:'SLC', airportName:'Salt Lake City International Airport', cityName:'Salt Lake City',  state:'UT'},
-{airportCode:'DCA', airportName:'Ronald Reagan Washington National Airport', cityName:'Washington, D.C.',  state:'VA'},
-{airportCode:'IAD', airportName:'Washington Dulles International Airport', cityName:'Washington, D.C.',  state:'VA'},
-{airportCode:'SAN', airportName:'San Diego International Airport', cityName:'San Diego',  state:'CA'},
-{airportCode:'MDW', airportName:'Midway International Airport', cityName:'Chicago',  state:'IL'},
-{airportCode:'TPA', airportName:'Tampa International Airport', cityName:'Tampa',  state:'FL'},
-{airportCode:'HNL', airportName:'Daniel K. Inouye International Airport', cityName:'Honolulu',  state:'HI'},
-{airportCode:'PDX', airportName:'Portland International Airport', cityName:'Portland',  state:'OR'}]
+{id:'PHX', airportName:'Phoenix Sky Harbor International Airport', cityName:'Phoenix',  state:'AZ'},
+{id:'MIA', airportName:'Miami International Airport', cityName:'Miami',  state:'FL'},
+{id:'IAH', airportName:'George Bush Intercontinental Airport', cityName:'Houston',  state:'TX'},
+{id:'BOS', airportName:'Logan International Airport', cityName:'Boston',  state:'MA'},
+{id:'MSP', airportName:'Minneapolis–Saint Paul International Airport', cityName:'Minneapolis/St. Paul',  state:'MN'},
+{id:'DTW', airportName:'Detroit Metropolitan Airport', cityName:'Detroit',  state:'MI'},
+{id:'FLL', airportName:'Fort Lauderdale–Hollywood International Airport', cityName:'Fort Lauderdale',  state:'FL'},
+{id:'PHL', airportName:'Philadelphia International Airport', cityName:'Philadelphia',  state:'PA'},
+{id:'LGA', airportName:'LaGuardia Airport', cityName:'New York',  state:'NY'},
+{id:'BWI', airportName:'Baltimore–Washington International Airport', cityName:'Baltimore',  state:'MD'},
+{id:'SLC', airportName:'Salt Lake City International Airport', cityName:'Salt Lake City',  state:'UT'},
+{id:'DCA', airportName:'Ronald Reagan Washington National Airport', cityName:'Washington, D.C.',  state:'VA'},
+{id:'IAD', airportName:'Washington Dulles International Airport', cityName:'Washington, D.C.',  state:'VA'},
+{id:'SAN', airportName:'San Diego International Airport', cityName:'San Diego',  state:'CA'},
+{id:'MDW', airportName:'Midway International Airport', cityName:'Chicago',  state:'IL'},
+{id:'TPA', airportName:'Tampa International Airport', cityName:'Tampa',  state:'FL'},
+{id:'HNL', airportName:'Daniel K. Inouye International Airport', cityName:'Honolulu',  state:'HI'},
+{id:'PDX', airportName:'Portland International Airport', cityName:'Portland',  state:'OR'}]
 */
 
         #endregion

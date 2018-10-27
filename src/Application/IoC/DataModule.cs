@@ -17,7 +17,7 @@ namespace ContosoTravel.Web.Application.IoC
             {
                 case DataType.Mock:
                     builder.RegisterType<Data.Mock.AirportDataMockProvider>()
-                           .As<ICarDataProvider>()
+                           .As<IAirportDataProvider>()
                            .SingleInstance();
 
                     builder.RegisterType<Data.Mock.FlightDataMockProvider>()
@@ -37,6 +37,36 @@ namespace ContosoTravel.Web.Application.IoC
                            .SingleInstance();
 
                     builder.RegisterType<Data.Mock.ItineraryDataMockProvider>()
+                           .As<IItineraryDataProvider>()
+                           .SingleInstance();
+                    break;
+
+                case DataType.CosmosSQL:
+                    builder.RegisterType<Data.CosmosSQL.CosmosDBProvider>()
+                           .AsSelf()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.CosmosSQL.AirportDataCosmosSQLProvider>()
+                           .As<IAirportDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.CosmosSQL.FlightDataCosmosSQLProvider>()
+                           .As<IFlightDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.CosmosSQL.CarDataCosmosSQLProvider>()
+                           .As<ICarDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.CosmosSQL.HotelDataCosmosSQLProvider>()
+                           .As<IHotelDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.CosmosSQL.CartDataCosmosSQLProvider>()
+                           .As<ICartDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.CosmosSQL.ItineraryDataCosmosSQLProvider>()
                            .As<IItineraryDataProvider>()
                            .SingleInstance();
                     break;

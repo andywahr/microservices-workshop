@@ -24,7 +24,7 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             _cosmosDBProvider = cosmosDBProvider;
             _getClientAndVerifyCollection = new AsyncLazy<DocumentClient>(async () =>
             {
-                return await _cosmosDBProvider.GetDocumentClientAndVerifyCollection(COLLECTIONNAME, new string[] { "/airportCode" });
+                return await _cosmosDBProvider.GetDocumentClientAndVerifyCollection(COLLECTIONNAME);
             });
         }
 

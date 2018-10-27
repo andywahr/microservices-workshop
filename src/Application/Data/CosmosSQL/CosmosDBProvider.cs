@@ -33,23 +33,15 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             return await _client;
         }
 
-        public async Task<DocumentClient> GetDocumentClientAndVerifyCollection(string collection, params string[][] keys)
+        public async Task<DocumentClient> GetDocumentClientAndVerifyCollection(string collection, params string[][] indexes)
         {
-            UniqueKeyPolicy policy = new UniqueKeyPolicy();
-            if (keys != null && keys.Count() > 0)
-            {
-                foreach (string[] key in keys)
-                {
-                    policy.UniqueKeys.Add(new UniqueKey() { Paths = new Collection<string>(key) });
-                }
-            }
+            // leave indexes for later
 
             var docClient = await GetDocumentClient();
-            await docClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(Configuration.DataAccountName),
+            await docClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(Configuration.DatabaseName),
                                                                      new DocumentCollection
                                                                      {
-                                                                         Id = collection,
-                                                                         UniqueKeyPolicy = policy
+                                                                         Id = collection
                                                                      },
                                                                      new RequestOptions { OfferThroughput = 400 });
             return docClient;
@@ -57,12 +49,12 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
 
         public async Task<T> FindById<T>(DocumentClient client, string collection, string id, CancellationToken cancellationToken)
         {
-            return await client.ReadDocumentAsync<T>(UriFactory.CreateDocumentUri(Configuration.DataAccountName, collection, id.ToLower()), cancellationToken: cancellationToken);
+            return await client.ReadDocumentAsync<T>(UriFactory.CreateDocumentUri(Configuration.DatabaseName, collection, id), cancellationToken: cancellationToken);
         }
 
         public async Task<FeedResponse<T>> GetAll<T>(DocumentClient client, string collection, CancellationToken cancellationToken)
         {
-            var query = client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(Configuration.DataAccountName, collection),
+            var query = client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(Configuration.DatabaseName, collection),
                                                                                                            new FeedOptions
                                                                                                            {
                                                                                                                EnableCrossPartitionQuery = true
@@ -74,7 +66,7 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
 
         public async Task<bool> Persist<T>(DocumentClient client, string collection, T instance, CancellationToken cancellationToken)
         {
-            await client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(Configuration.DataAccountName, collection), instance, cancellationToken: cancellationToken, disableAutomaticIdGeneration: true);
+            await client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(Configuration.DatabaseName, collection), instance, cancellationToken: cancellationToken, disableAutomaticIdGeneration: true);
             return true;
         }
     }

@@ -65,7 +65,7 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
         public async Task DeleteCart(string cartId, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            await docClient.DeleteDocumentAsync(UriFactory.CreateDocumentUri(Configuration.DataAccountName, COLLECTIONNAME, cartId.ToLower()), cancellationToken: cancellationToken);
+            await docClient.DeleteDocumentAsync(UriFactory.CreateDocumentUri(Configuration.DatabaseName, COLLECTIONNAME, cartId.ToLower()), cancellationToken: cancellationToken);
         }
 
         private async Task<CartPersistenceModel> UpdateAndPersist(string cartId, Action<CartPersistenceModel> updateMe, CancellationToken cancellationToken)

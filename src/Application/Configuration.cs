@@ -13,6 +13,7 @@ namespace ContosoTravel.Web.Application
             Application.Configuration.ServicesType = (ServicesType)Enum.Parse(typeof(ServicesType), getVal("ServicesType"));
             Application.Configuration.ServicesMiddlewareAccountName = getVal("ServicesMiddlewareAccountName");
             Application.Configuration.DataAccountName = getVal("DataAccountName");
+            Application.Configuration.DatabaseName = getVal("DatabaseName");            
             Application.Configuration.SubscriptionId = getVal("SubscriptionId");
             Application.Configuration.ResourceGroupName = getVal("ResourceGroupName");
             Application.Configuration.AzureRegion = getVal("AzureRegion");
@@ -23,6 +24,7 @@ namespace ContosoTravel.Web.Application
         public static DataType DataType { get; set; } = DataType.Mock;
         public static string ServicesMiddlewareAccountName { get; set; }
         public static string DataAccountName { get; set; }
+        public static string DatabaseName { get; set; }
         public static string SubscriptionId { get; set; }
         public static string ResourceGroupName { get; set; }
         public static string AzureRegion { get; set; }
@@ -39,7 +41,7 @@ namespace ContosoTravel.Web.Application
     public enum DataType
     {
         Mock,
-        Cosmos,
+        CosmosSQL,
         SQL
     }
 }

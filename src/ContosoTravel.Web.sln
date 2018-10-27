@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Function.EventGrid", "Const
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functions.ServiceBus", "ContosoTravel.Web.Functions.ServiceBus\Functions.ServiceBus.csproj", "{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLoader", "DataLoader\DataLoader.csproj", "{83B9FA45-C9BD-4558-ABB6-B78A4E13D9D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFA8ABA2-2459-4D7B-9C3A-C580A482F69C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B9FA45-C9BD-4558-ABB6-B78A4E13D9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B9FA45-C9BD-4558-ABB6-B78A4E13D9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B9FA45-C9BD-4558-ABB6-B78A4E13D9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B9FA45-C9BD-4558-ABB6-B78A4E13D9D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

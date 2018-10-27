@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace ContosoTravel.Web.Application.Data.Mock
 {
-    public class HotelDataMockProvider : IHotelDataProvider
+    public class HotelDataMockProvider : IHotelDataProvider, IGetAllProvider<HotelModel>
     {
         private readonly IAirportDataProvider _airportDataProvider;
         AsyncLazy<IEnumerable<HotelModel>> _hotelModels;
         AsyncLazy<Dictionary<string, HotelModel>> _hotelModelLookup;
 
-        public HotelDataMockProvider(IAirportDataProvider airportDataProvider)
+        public HotelDataMockProvider()
         {
-            _airportDataProvider = airportDataProvider;
+            _airportDataProvider = new AirportDataMockProvider();
             _hotelModels = new AsyncLazy<IEnumerable<HotelModel>>(async () =>
             {
-                return await GetAll();
+                return await GetAll(CancellationToken.None);
             });
 
             _hotelModelLookup = new AsyncLazy<Dictionary<string, HotelModel>>(async () =>
@@ -42,7 +42,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
             return (await _hotelModelLookup)[hotelId];
         }
 
-        public async Task<IEnumerable<HotelModel>> GetAll()
+        public async Task<IEnumerable<HotelModel>> GetAll(CancellationToken cancellationToken)
         {
             Random random = new Random();
 
@@ -52,7 +52,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                                                  HotelRoomType.Suite,
                                                  HotelRoomType.Penthouse };
 
-            foreach (var airPort in (await _airportDataProvider.GetAll(CancellationToken.None)))
+            foreach (var airPort in (await _airportDataProvider.GetAll(cancellationToken)))
             {
                 for (int dayOffset = -1; dayOffset < 14; dayOffset++)
                 {

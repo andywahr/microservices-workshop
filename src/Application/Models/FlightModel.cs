@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ContosoTravel.Web.Application.Data.Mock;
+using Newtonsoft.Json;
 
 namespace ContosoTravel.Web.Application.Models
 {
@@ -12,6 +13,7 @@ namespace ContosoTravel.Web.Application.Models
             Id = Guid.NewGuid().ToString("n");
         }
 
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         public string DepartingFrom { get; set; }
         public string ArrivingAt { get; set; }

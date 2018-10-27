@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace ContosoTravel.Web.Application.Data.Mock
 {
-    public class FlightDataMockProvider : IFlightDataProvider
+    public class FlightDataMockProvider : IFlightDataProvider, IGetAllProvider<FlightModel>
     {
         private readonly IAirportDataProvider _airportDataProvider;
         AsyncLazy<IEnumerable<FlightModel>> _flightModels;
         AsyncLazy<Dictionary<string, FlightModel>> _flightModelLookup;
          
-        public FlightDataMockProvider(IAirportDataProvider airportDataProvider)
+        public FlightDataMockProvider()
         {
-            _airportDataProvider = airportDataProvider;
+            _airportDataProvider = new AirportDataMockProvider();
             _flightModels = new AsyncLazy<IEnumerable<FlightModel>>(async () =>
             {
-                return await GetAll();
+                return await GetAll(CancellationToken.None);
             });
 
             _flightModelLookup = new AsyncLazy<Dictionary<string, FlightModel>>(async () =>
@@ -42,7 +42,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
             return (await _flightModelLookup)[flightId];
         }
 
-        public async Task<IEnumerable<FlightModel>> GetAll()
+        public async Task<IEnumerable<FlightModel>> GetAll(CancellationToken cancellationToken)
         {
             Random random = new Random();
 
