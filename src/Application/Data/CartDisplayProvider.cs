@@ -21,7 +21,7 @@ namespace ContosoTravel.Web.Application.Data
             _hotelDataProvider = hotelDataProvider;
         }
 
-        public async Task<T> LoadFullCart<T>(CartPersistenceModel cart, CancellationToken cancellationToken) where T: CartModel, new()
+        public async Task<T> LoadFullCart<T>(CartPersistenceModel cart, CancellationToken cancellationToken) where T : CartModel, new()
         {
             T cartModel = new T()
             {
@@ -50,6 +50,13 @@ namespace ContosoTravel.Web.Application.Data
             }
 
             return cartModel;
+        }
+
+        public async Task<ItineraryModel> LoadFullItinerary(ItineraryPersistenceModel itinerary, CancellationToken cancellationToken)
+        {
+            ItineraryModel itineraryModel = await LoadFullCart<ItineraryModel>(itinerary, cancellationToken);
+            itineraryModel.RecordLocator = itinerary.RecordLocator;
+            return itineraryModel;
         }
     }
 }

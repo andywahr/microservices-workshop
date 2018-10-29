@@ -20,6 +20,7 @@ namespace ContosoTravel.Web.Application.Services.EventGrid
         private readonly string KeysURL;
         private readonly string TopicHostName;
         private readonly AsyncLazy<EventGridClient> _eventGridClient;
+        private readonly ContosoConfiguration _contosoConfig;
 
         private class EventGridKeyResponse
         {
@@ -27,10 +28,11 @@ namespace ContosoTravel.Web.Application.Services.EventGrid
             public string key2 { get; set; }
         }
 
-        public PurchaseEventGridService()
+        public PurchaseEventGridService(ContosoConfiguration contosoConfig)
         {
-            KeysURL = $"https://management.azure.com/subscriptions/{Configuration.SubscriptionId}/resourceGroups/{Configuration.ResourceGroupName}/providers/Microsoft.EventGrid/topics/{Configuration.ServicesMiddlewareAccountName}/listKeys?api-version=2018-05-01-preview";
-            TopicHostName = $"{Configuration.ServicesMiddlewareAccountName}.{Configuration.AzureRegion}-1.eventgrid.azure.net";
+            _contosoConfig = contosoConfig;
+            KeysURL = $"https://management.azure.com/subscriptions/{_contosoConfig.SubscriptionId}/resourceGroups/{_contosoConfig.ResourceGroupName}/providers/Microsoft.EventGrid/topics/{_contosoConfig.ServicesMiddlewareAccountName}/listKeys?api-version=2018-05-01-preview";
+            TopicHostName = $"{_contosoConfig.ServicesMiddlewareAccountName}.{_contosoConfig.AzureRegion}-1.eventgrid.azure.net";
 
             _eventGridClient = new AsyncLazy<EventGridClient>(async () =>
             {

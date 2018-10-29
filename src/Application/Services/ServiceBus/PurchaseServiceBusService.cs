@@ -15,13 +15,15 @@ namespace ContosoTravel.Web.Application.Services.ServiceBus
     public class PurchaseServiceBusService : IPurchaseService
     {
         private readonly AsyncLazy<QueueClient> _serviceBusClient;
+        private readonly ContosoConfiguration _contosoConfig;
 
-        public PurchaseServiceBusService()
+        public PurchaseServiceBusService(ContosoConfiguration contosoConfig, AzureManagement azureManagement)
         {
+            _contosoConfig = contosoConfig;
             _serviceBusClient = new AsyncLazy<QueueClient>(async () =>
             {
-                var azure = await AzureManagement.ConnectToSubscription(Configuration.SubscriptionId);
-                var serviceBusAccount = await azure.ServiceBusNamespaces.GetByResourceGroupAsync(Configuration.ResourceGroupName, Configuration.ServicesMiddlewareAccountName);
+                var azure = await azureManagement.ConnectToSubscription(_contosoConfig.SubscriptionId);
+                var serviceBusAccount = await azure.ServiceBusNamespaces.GetByResourceGroupAsync(_contosoConfig.ResourceGroupName, _contosoConfig.ServicesMiddlewareAccountName);
                 var writeOnlyAuthRule = await serviceBusAccount.AuthorizationRules.GetByNameAsync("WriteOnly");
                 string connectionString = writeOnlyAuthRule.GetKeys().PrimaryConnectionString;
 

@@ -38,12 +38,9 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
         public async Task<IEnumerable<HotelModel>> FindHotels(string location, DateTimeOffset desiredTime, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            var all = await _cosmosDBProvider.GetAll<HotelModel>(docClient, COLLECTIONNAME, cancellationToken);
-
-            return all.Where(c => c.Location == location &&
-                                  c.StartingTimeEpoc >= desiredTime.ToEpoch() &&
-                                  c.EndingTimeEpoc <= desiredTime.ToEpoch()).OrderBy(c => c.Cost);
-
+            return await _cosmosDBProvider.GetAll<HotelModel>(docClient, COLLECTIONNAME, (q) => q.Where(c => c.Location == location &&
+                                                                                                             c.StartingTimeEpoc <= desiredTime.ToEpoch() &&
+                                                                                                             c.EndingTimeEpoc >= desiredTime.ToEpoch()).OrderBy(c => c.Cost), cancellationToken);
         }
 
         public async Task<bool> Persist(HotelModel instance, CancellationToken cancellationToken)

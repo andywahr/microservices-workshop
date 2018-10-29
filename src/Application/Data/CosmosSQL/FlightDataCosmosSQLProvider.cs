@@ -38,12 +38,10 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
         public async Task<IEnumerable<FlightModel>> FindFlights(string departingFrom, string arrivingAt, DateTimeOffset desiredTime, TimeSpan offset, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            var all = await _cosmosDBProvider.GetAll<FlightModel>(docClient, COLLECTIONNAME, cancellationToken);
-
-            return all.Where(f => f.DepartingFrom == departingFrom &&
-                                  f.ArrivingAt == arrivingAt &&
-                                  f.DepartureTimeEpoc > desiredTime.Subtract(offset).ToEpoch() &&
-                                  f.DepartureTimeEpoc < desiredTime.Add(offset).ToEpoch()).OrderBy(f => f.DepartureTimeEpoc);
+            return await _cosmosDBProvider.GetAll<FlightModel>(docClient, COLLECTIONNAME, (q) => q.Where(f => f.DepartingFrom == departingFrom &&
+                                                                                                            f.ArrivingAt == arrivingAt &&
+                                                                                                            f.DepartureTimeEpoc <= desiredTime.Subtract(offset).ToEpoch() &&
+                                                                                                           f.DepartureTimeEpoc >= desiredTime.Add(offset).ToEpoch()).OrderBy(f => f.DepartureTimeEpoc), cancellationToken);
         }
 
         public async Task<bool> Persist(FlightModel instance, CancellationToken cancellationToken)

@@ -16,7 +16,7 @@ namespace ContosoTravel.Web.Application.IoC
                    .AsSelf()
                    .SingleInstance();
 
-            switch (Configuration.ServicesType)
+            switch (ContosoConfiguration.ServicesType)
             {
                 case ServicesType.Monolith:
                     builder.RegisterType<PurchaseMonolithService>()

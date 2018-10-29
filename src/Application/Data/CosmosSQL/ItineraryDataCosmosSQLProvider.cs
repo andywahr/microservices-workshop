@@ -32,15 +32,13 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
         public async Task<ItineraryPersistenceModel> FindItinerary(string cartId, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            return await _cosmosDBProvider.FindById<ItineraryPersistenceModel>(docClient, COLLECTIONNAME, cartId, cancellationToken);
+            return (await _cosmosDBProvider.GetAll<ItineraryPersistenceModel>(docClient, COLLECTIONNAME, (q) => q.Where(f => f.Id == cartId), cancellationToken)).FirstOrDefault();
         }
 
         public async Task<ItineraryPersistenceModel> GetItinerary(string recordLocator, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            var all = await _cosmosDBProvider.GetAll<ItineraryPersistenceModel>(docClient, COLLECTIONNAME, cancellationToken);
-
-            return all.FirstOrDefault(f => f.RecordLocator == recordLocator);
+            return (await _cosmosDBProvider.GetAll<ItineraryPersistenceModel>(docClient, COLLECTIONNAME, (q) => q.Where(f => f.RecordLocator == recordLocator), cancellationToken)).FirstOrDefault();
         }
 
         public async Task UpsertItinerary(ItineraryPersistenceModel itinerary, CancellationToken cancellationToken)

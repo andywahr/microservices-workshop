@@ -27,14 +27,19 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
         {
             string cookieId = _cartCookieProvider.GetCartCookie();
             var itinerary = await _itineraryDataProvider.FindItinerary(cookieId, cancellationToken);
-            return await _cartDisplayProvider.LoadFullCart<ItineraryModel>(itinerary, cancellationToken);
 
+            if (itinerary == null)
+            {
+                return null;
+            }
+
+            return await _cartDisplayProvider.LoadFullItinerary(itinerary, cancellationToken);
         }
 
         public async Task<ItineraryModel> GetByRecordLocator(string recordLocator, CancellationToken cancellationToken)
         {
             var itinerary = await _itineraryDataProvider.GetItinerary(recordLocator, cancellationToken);
-            return await _cartDisplayProvider.LoadFullCart<ItineraryModel>(itinerary, cancellationToken);
+            return await _cartDisplayProvider.LoadFullItinerary(itinerary, cancellationToken);
         }
     }
 }

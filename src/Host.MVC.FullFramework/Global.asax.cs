@@ -1,4 +1,8 @@
 ﻿using ContosoTravel.Web.Application;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,7 +18,6 @@ namespace ContosoTravel.Web.Host.MVC.FullFramework
     {
         protected void Application_Start()
         {
-            Web.Application.Configuration.PopulateFromConfig((name) => ConfigurationManager.AppSettings[name]);
             Web.Application.Models.SiteModel.SiteTitle = "Contoso Travel - .Net Framework";
             AutofacConfig.RegisterContainer();
             AreaRegistration.RegisterAllAreas();

@@ -29,7 +29,7 @@ namespace DataLoader
             AppConfig = new ConfigurationBuilder()
                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                            .AddEnvironmentVariables().Build();
-            ContosoTravel.Web.Application.Configuration.PopulateFromConfig((name) => AppConfig[name]);
+            ContosoTravel.Web.Application.ContosoConfiguration.PopulateFromConfig((name) => AppConfig[name]);
             SetupIoC();
             await DataLoad(cts.Token);
         }
@@ -75,7 +75,7 @@ namespace DataLoader
             // to add them to Autofac.
             containerBuilder.Populate(serviceCollection);
 
-            containerBuilder.RegisterAssemblyModules(typeof(Program).Assembly, typeof(ContosoTravel.Web.Application.Configuration).Assembly);
+            containerBuilder.RegisterAssemblyModules(typeof(Program).Assembly, typeof(ContosoTravel.Web.Application.ContosoConfiguration).Assembly);
 
             Container = containerBuilder.Build();
             ServiceProvider = new AutofacServiceProvider(Container);

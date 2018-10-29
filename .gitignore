@@ -331,3 +331,5 @@ ASALocalRun/
 
 # Ignore linked files
 **/Host.MVC.FullFramework/Views/Home/**
+**/contosoSettings.json
+

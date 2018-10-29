@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -20,12 +21,9 @@ namespace ContosoTravel.Web.Host.MVC.Core
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Web.Application.Configuration.PopulateFromConfig((name) => Configuration[name]);
         }
 
-        public IConfiguration Configuration { get; }
-
-        public IContainer ApplicationContainer { get; private set; }
+        public static IConfiguration Configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -43,7 +41,7 @@ namespace ContosoTravel.Web.Host.MVC.Core
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyModules(typeof(Startup).Assembly, typeof(Configuration).Assembly);
+            Setup.InitCotoso(Configuration["KeyVaultUrl"], Directory.GetCurrentDirectory(), typeof(Startup).Assembly, builder);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

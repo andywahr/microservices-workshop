@@ -13,7 +13,7 @@ namespace ContosoTravel.Web.Application.IoC
         {
             builder.RegisterType<CartDisplayProvider>().AsSelf().SingleInstance();
 
-            switch (Configuration.DataType)
+            switch (ContosoConfiguration.DataType)
             {
                 case DataType.Mock:
                     builder.RegisterType<Data.Mock.AirportDataMockProvider>()

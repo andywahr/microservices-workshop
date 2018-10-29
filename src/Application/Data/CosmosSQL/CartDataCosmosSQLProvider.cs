@@ -19,20 +19,22 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
         private readonly CosmosDBProvider _cosmosDBProvider;
         const string COLLECTIONNAME = "Carts";
         private AsyncLazy<DocumentClient> _getClientAndVerifyCollection;
+        private ContosoConfiguration _contosoConfig;
 
-        public CartDataCosmosSQLProvider(CosmosDBProvider cosmosDBProvider)
+        public CartDataCosmosSQLProvider(CosmosDBProvider cosmosDBProvider, ContosoConfiguration contosoConfig)
         {
             _cosmosDBProvider = cosmosDBProvider;
+            _contosoConfig = contosoConfig;
             _getClientAndVerifyCollection = new AsyncLazy<DocumentClient>(async () =>
             {
-                return await _cosmosDBProvider.GetDocumentClientAndVerifyCollection(COLLECTIONNAME, new string[] { "/departingFrom", "/arrivingAt", "/departureTimeEpoc" });
+                return await _cosmosDBProvider.GetDocumentClientAndVerifyCollection(COLLECTIONNAME);
             });
         }
 
         public async Task<CartPersistenceModel> GetCart(string cartId, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            return await _cosmosDBProvider.FindById<CartPersistenceModel>(docClient, COLLECTIONNAME, cartId, cancellationToken);
+            return (await _cosmosDBProvider.GetAll<CartPersistenceModel>(docClient, COLLECTIONNAME, (q) => q.Where(f => f.Id == cartId), cancellationToken)).FirstOrDefault();
         }
 
         public async Task<CartPersistenceModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken)
@@ -65,14 +67,19 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
         public async Task DeleteCart(string cartId, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            await docClient.DeleteDocumentAsync(UriFactory.CreateDocumentUri(Configuration.DatabaseName, COLLECTIONNAME, cartId.ToLower()), cancellationToken: cancellationToken);
+            await docClient.DeleteDocumentAsync(UriFactory.CreateDocumentUri(_contosoConfig.DatabaseName, COLLECTIONNAME, cartId.ToLower()), cancellationToken: cancellationToken);
         }
 
         private async Task<CartPersistenceModel> UpdateAndPersist(string cartId, Action<CartPersistenceModel> updateMe, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
             var cart = await GetCart(cartId, cancellationToken);
+            if ( cart == null )
+            {
+                cart = new CartPersistenceModel() { Id = cartId };
+            }
             updateMe(cart);
+            await _cosmosDBProvider.Persist<CartPersistenceModel>(docClient, COLLECTIONNAME, cart, cancellationToken);
             return cart;
         }
     }

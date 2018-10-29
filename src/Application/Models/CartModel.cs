@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -23,6 +24,7 @@ namespace ContosoTravel.Web.Application.Models
 
     public class CartPersistenceModel
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         public string DepartingFlight { get; set; }
         public string ReturningFlight { get; set; }

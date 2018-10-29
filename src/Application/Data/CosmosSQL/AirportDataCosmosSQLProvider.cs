@@ -37,7 +37,7 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
         public async Task<IEnumerable<AirportModel>> GetAll(CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            return await _cosmosDBProvider.GetAll<AirportModel>(docClient, COLLECTIONNAME, cancellationToken);
+            return await _cosmosDBProvider.GetAll<AirportModel>(docClient, COLLECTIONNAME, (q) => q.Select(air => air), cancellationToken);
         }
 
         public async Task<bool> Persist(AirportModel instance, CancellationToken cancellationToken)
