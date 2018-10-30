@@ -8,30 +8,20 @@ namespace ContosoTravel.Web.Application
 {
     public class ContosoConfiguration
     {
-        public static ContosoConfiguration PopulateFromConfig(Func<string, string> getVal)
-        {
-            DataType = (DataType)Enum.Parse(typeof(DataType), getVal("DataType"));
-            ServicesType = (ServicesType)Enum.Parse(typeof(ServicesType), getVal("ServicesType"));
-
-            return new ContosoConfiguration()
-                       {
-                            ServicesMiddlewareAccountName = getVal("ServicesMiddlewareAccountName"),
-                            DataAccountName = getVal("DataAccountName"),
-                            DatabaseName = getVal("DatabaseName"),
-                            SubscriptionId = getVal("SubscriptionId"),
-                            ResourceGroupName = getVal("ResourceGroupName"),
-                            AzureRegion = getVal("AzureRegion"),
-                            TenantId = getVal("TenantId")
-                       };
-        }
-
-        public static ContosoConfiguration PopulateFromConfig(IConfiguration appConfig)
+        public static ContosoConfiguration PopulateFromConfig(IConfiguration appConfig, bool withDBSecrets = false)
         {
             IConfigurationSection contosoConfigSection = appConfig.GetSection("ContosoTravel");
             DataType = (DataType)Enum.Parse(typeof(DataType), contosoConfigSection["DataType"]);
             ServicesType = (ServicesType)Enum.Parse(typeof(ServicesType), contosoConfigSection["ServicesType"]);
 
             var newConfig = contosoConfigSection.Get<ContosoConfiguration>();
+
+            if ( !withDBSecrets )
+            {
+                newConfig.DataAdministratorLogin = string.Empty;
+                newConfig.DataAdministratorLoginPassword = string.Empty;
+            }
+
             return newConfig;
         }
 
@@ -44,6 +34,8 @@ namespace ContosoTravel.Web.Application
         public string ResourceGroupName { get; set; }
         public string AzureRegion { get; set; }
         public string TenantId { get; set; }
+        public string DataAdministratorLogin { get; set; }
+        public string DataAdministratorLoginPassword { get; set; }
     }
 
     public enum ServicesType

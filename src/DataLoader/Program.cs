@@ -34,7 +34,14 @@ namespace DataLoader
                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                            .AddEnvironmentVariables().Build();
             SetupIoC();
+            await SetupData(cts.Token);
             await DataLoad(cts.Token);
+        }
+
+        private static async Task SetupData(CancellationToken token)
+        {
+            var deployer = Container.Resolve<IDataDeployment>();
+            await deployer.Configure(token);
         }
 
         private static async Task DataLoad(CancellationToken cancellationToken)
@@ -100,7 +107,7 @@ namespace DataLoader
             // to add them to Autofac.
             containerBuilder.Populate(serviceCollection);
 
-            Setup.InitCotoso(AppConfig["KeyVaultUrl"], Directory.GetCurrentDirectory(), typeof(Program).Assembly, containerBuilder);
+            Setup.InitCotoso(AppConfig["KeyVaultUrl"], Directory.GetCurrentDirectory(), typeof(Program).Assembly, containerBuilder, true);
 
             Container = containerBuilder.Build();
             ServiceProvider = new AutofacServiceProvider(Container);

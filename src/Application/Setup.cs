@@ -31,7 +31,7 @@ namespace ContosoTravel.Web.Application
             return _container;
         }
 
-        public static IContainer InitCotoso(string keyVaultUrl, string currentDirectory, Assembly mainAssembly, ContainerBuilder builder = null)
+        public static IContainer InitCotoso(string keyVaultUrl, string currentDirectory, Assembly mainAssembly, ContainerBuilder builder = null, bool withDBSecrets = false)
         {
             IConfigurationBuilder configBuilder = new ConfigurationBuilder().SetBasePath(currentDirectory);
 
@@ -48,7 +48,7 @@ namespace ContosoTravel.Web.Application
             }
 
             var config = configBuilder.AddEnvironmentVariables().Build();
-            ContosoConfiguration contsoConfig = ContosoConfiguration.PopulateFromConfig(config);
+            ContosoConfiguration contsoConfig = ContosoConfiguration.PopulateFromConfig(config, withDBSecrets);
 
             bool buildHere = false;
             IContainer container = null;
