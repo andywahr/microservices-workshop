@@ -29,22 +29,22 @@ namespace ContosoTravel.Web.Application.Data
                 HotelReservationDuration = cart.HotelReservationDuration
             };
 
-            if (!string.IsNullOrEmpty(cart.DepartingFlight))
+            if (cart.DepartingFlight != 0)
             {
                 cartModel.DepartingFlight = await _flightDataProvider.FindFlight(cart.DepartingFlight, cancellationToken);
             }
 
-            if (!string.IsNullOrEmpty(cart.ReturningFlight))
+            if (cart.ReturningFlight != 0)
             {
                 cartModel.ReturningFlight = await _flightDataProvider.FindFlight(cart.ReturningFlight, cancellationToken);
             }
 
-            if (!string.IsNullOrEmpty(cart.HotelReservation))
+            if (cart.HotelReservation != 0)
             {
                 cartModel.HotelReservation = await _hotelDataProvider.FindHotel(cart.HotelReservation, cancellationToken);
             }
 
-            if (!string.IsNullOrEmpty(cart.CarReservation))
+            if (cart.CarReservation != 0)
             {
                 cartModel.CarReservation = await _carDataProvider.FindCar(cart.CarReservation, cancellationToken);
             }

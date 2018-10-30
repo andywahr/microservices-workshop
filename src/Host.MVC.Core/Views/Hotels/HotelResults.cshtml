@@ -8,7 +8,7 @@
 @using (Html.BeginForm("Purchase", "Hotels", FormMethod.Post, new { @class = "form-inline" }))
 {
     <div>
-        @foreach (var hotel in Model.Hotels)
+        @foreach (var hotel in Model.Hotels.OrderBy(h => h.Cost))
         {
             var displayHotel = new ContosoTravel.Web.Application.Models.HotelModelWithPrice(hotel, Model.NumberOfDays);
             @Html.DisplayFor(m => displayHotel);

@@ -23,8 +23,8 @@ namespace ContosoTravel.Web.Host.MVC.Core
             if (!currentContext.Request.Cookies.TryGetValue("CartId", out cartId))
             {
                 CartModel currentCart = new CartModel();
-                currentContext.Response.Cookies.Append("CartId", currentCart.Id);
-                cartId = currentCart.Id;
+                cartId = currentCart.Id.ToString("n");
+                currentContext.Response.Cookies.Append("CartId", cartId);
             }
             return cartId;
         }

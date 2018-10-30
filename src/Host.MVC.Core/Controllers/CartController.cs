@@ -28,9 +28,9 @@ namespace ContosoTravel.Web.Host.MVC.Core.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Purchase(CancellationToken cancellationToken)
+        public async Task<IActionResult> Purchase(System.DateTimeOffset PurchasedOn, CancellationToken cancellationToken)
         {
-            if (await _cartController.Purchase(cancellationToken))
+            if (await _cartController.Purchase(PurchasedOn, cancellationToken))
             {
                 return RedirectToAction("Index", "Itinerary");
             }

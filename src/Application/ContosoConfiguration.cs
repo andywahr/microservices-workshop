@@ -27,11 +27,11 @@ namespace ContosoTravel.Web.Application
 
         public static ContosoConfiguration PopulateFromConfig(IConfiguration appConfig)
         {
-            IConfigurationSection contosoConfigSection = appConfig.GetSection("ContosoConfig");
+            IConfigurationSection contosoConfigSection = appConfig.GetSection("ContosoTravel");
             DataType = (DataType)Enum.Parse(typeof(DataType), contosoConfigSection["DataType"]);
             ServicesType = (ServicesType)Enum.Parse(typeof(ServicesType), contosoConfigSection["ServicesType"]);
 
-            var newConfig = appConfig.GetSection("ContosoConfig").Get<ContosoConfiguration>();
+            var newConfig = contosoConfigSection.Get<ContosoConfiguration>();
             return newConfig;
         }
 

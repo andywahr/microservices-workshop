@@ -8,5 +8,6 @@ namespace ContosoTravel.Web.Application.Messages
     public class PurchaseItineraryMessage
     {
         public string CartId { get; set; }
+        public DateTimeOffset PurchasedOn { get; set; }
     }
 }

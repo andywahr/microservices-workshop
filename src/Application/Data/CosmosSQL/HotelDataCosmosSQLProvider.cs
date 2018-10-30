@@ -29,10 +29,10 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             });
         }
 
-        public async Task<HotelModel> FindHotel(string HotelId, CancellationToken cancellationToken)
+        public async Task<HotelModel> FindHotel(int hotelId, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            return await _cosmosDBProvider.FindById<HotelModel>(docClient, COLLECTIONNAME, HotelId, cancellationToken);
+            return await _cosmosDBProvider.FindById<HotelModel>(docClient, COLLECTIONNAME, hotelId.ToString(), cancellationToken);
         }
 
         public async Task<IEnumerable<HotelModel>> FindHotels(string location, DateTimeOffset desiredTime, CancellationToken cancellationToken)

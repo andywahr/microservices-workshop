@@ -70,6 +70,36 @@ namespace ContosoTravel.Web.Application.IoC
                            .As<IItineraryDataProvider>()
                            .SingleInstance();
                     break;
+
+                case DataType.SQL:
+                    builder.RegisterType<Data.SQLServer.SQLServerProvider>()
+                           .AsSelf()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.SQLServer.AirportDataSQLServerProvider>()
+                           .As<IAirportDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.SQLServer.FlightDataSQLServerProvider>()
+                           .As<IFlightDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.SQLServer.CarDataSQLServerProvider>()
+                           .As<ICarDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.SQLServer.HotelDataSQLServerProvider>()
+                           .As<IHotelDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.SQLServer.CartDataSQLServerProvider>()
+                           .As<ICartDataProvider>()
+                           .SingleInstance();
+
+                    builder.RegisterType<Data.SQLServer.ItineraryDataSQLServerProvider>()
+                           .As<IItineraryDataProvider>()
+                           .SingleInstance();
+                    break;
             }
         }
     }

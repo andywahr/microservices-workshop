@@ -28,6 +28,9 @@ namespace DataLoader
             builder.RegisterType<HotelDataMockProvider>()
                    .As<IGetAllProvider<HotelModel>>()
                    .SingleInstance();
+
+            builder.RegisterType<SQLServerConnectionProvider>().As<ISQLServerConnectionProvider>();
+
         }
     }
 }

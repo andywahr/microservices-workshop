@@ -14,7 +14,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
     {
         private readonly IAirportDataProvider _airportDataProvider;
         AsyncLazy<IEnumerable<HotelModel>> _hotelModels;
-        AsyncLazy<Dictionary<string, HotelModel>> _hotelModelLookup;
+        AsyncLazy<Dictionary<int, HotelModel>> _hotelModelLookup;
 
         public HotelDataMockProvider()
         {
@@ -24,7 +24,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                 return await GetAll(CancellationToken.None);
             });
 
-            _hotelModelLookup = new AsyncLazy<Dictionary<string, HotelModel>>(async () =>
+            _hotelModelLookup = new AsyncLazy<Dictionary<int, HotelModel>>(async () =>
             {
                 return (await _hotelModels).ToDictionary(hotel => hotel.Id, car => car);
             });
@@ -37,7 +37,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                                        f.EndingTime > desiredTime).OrderBy(c => c.Cost);
         }
 
-        public async Task<HotelModel> FindHotel(string hotelId, CancellationToken cancellationToken)
+        public async Task<HotelModel> FindHotel(int hotelId, CancellationToken cancellationToken)
         {
             return (await _hotelModelLookup)[hotelId];
         }

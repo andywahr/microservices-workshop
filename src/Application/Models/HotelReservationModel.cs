@@ -6,6 +6,6 @@ namespace ContosoTravel.Web.Application.Models
     {
         public IEnumerable<HotelModel> Hotels { get; set; }
         public int NumberOfDays { get; set; }
-        public string SelectedHotel { get; set; }
+        public int SelectedHotel { get; set; }
     }
 }

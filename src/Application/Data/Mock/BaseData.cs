@@ -21,7 +21,14 @@ namespace ContosoTravel.Web.Application.Data.Mock
 
     public static class BaseData
     {
+        private static int _baseEntityKey = 0;
+
+        public static int GetNextKey()
+        {
+            return System.Threading.Interlocked.Increment(ref _baseEntityKey);
+        }
         #region Airports
+
         public const string AIRPORTSJSON = @"
 [{id:'ATL', airportName:'Hartsfield–Jackson Atlanta International Airport', cityName:'Atlanta',  state:'GA', timeZone:'Eastern Standard Time'},
 {id:'ORD', airportName:'O\'Hare International Airport', cityName:'Chicago',  state:'IL', timeZone:'Central Standard Time'},
@@ -32,28 +39,6 @@ namespace ContosoTravel.Web.Application.Data.Mock
 {id:'SEA', airportName:'Seattle–Tacoma International Airport', cityName:'Seattle/Tacoma',  state:'WA', timeZone:'Pacific Standard Time'},
 {id:'MCO', airportName:'Orlando International Airport', cityName:'Orlando',  state:'FL', timeZone:'Eastern Standard Time'}]
 ";
-
-/*
-{id:'PHX', airportName:'Phoenix Sky Harbor International Airport', cityName:'Phoenix',  state:'AZ'},
-{id:'MIA', airportName:'Miami International Airport', cityName:'Miami',  state:'FL'},
-{id:'IAH', airportName:'George Bush Intercontinental Airport', cityName:'Houston',  state:'TX'},
-{id:'BOS', airportName:'Logan International Airport', cityName:'Boston',  state:'MA'},
-{id:'MSP', airportName:'Minneapolis–Saint Paul International Airport', cityName:'Minneapolis/St. Paul',  state:'MN'},
-{id:'DTW', airportName:'Detroit Metropolitan Airport', cityName:'Detroit',  state:'MI'},
-{id:'FLL', airportName:'Fort Lauderdale–Hollywood International Airport', cityName:'Fort Lauderdale',  state:'FL'},
-{id:'PHL', airportName:'Philadelphia International Airport', cityName:'Philadelphia',  state:'PA'},
-{id:'LGA', airportName:'LaGuardia Airport', cityName:'New York',  state:'NY'},
-{id:'BWI', airportName:'Baltimore–Washington International Airport', cityName:'Baltimore',  state:'MD'},
-{id:'SLC', airportName:'Salt Lake City International Airport', cityName:'Salt Lake City',  state:'UT'},
-{id:'DCA', airportName:'Ronald Reagan Washington National Airport', cityName:'Washington, D.C.',  state:'VA'},
-{id:'IAD', airportName:'Washington Dulles International Airport', cityName:'Washington, D.C.',  state:'VA'},
-{id:'SAN', airportName:'San Diego International Airport', cityName:'San Diego',  state:'CA'},
-{id:'MDW', airportName:'Midway International Airport', cityName:'Chicago',  state:'IL'},
-{id:'TPA', airportName:'Tampa International Airport', cityName:'Tampa',  state:'FL'},
-{id:'HNL', airportName:'Daniel K. Inouye International Airport', cityName:'Honolulu',  state:'HI'},
-{id:'PDX', airportName:'Portland International Airport', cityName:'Portland',  state:'OR'}]
-*/
-
         #endregion
 
         #region Flight Times

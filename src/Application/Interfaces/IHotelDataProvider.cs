@@ -10,6 +10,6 @@ namespace ContosoTravel.Web.Application.Interfaces
     public interface IHotelDataProvider
     {
         Task<IEnumerable<HotelModel>> FindHotels(string location, DateTimeOffset desiredTime, CancellationToken cancellationToken);
-        Task<HotelModel> FindHotel(string hotelId, CancellationToken cancellationToken);
+        Task<HotelModel> FindHotel(int hotelId, CancellationToken cancellationToken);
     }
 }

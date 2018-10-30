@@ -29,10 +29,10 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             });
         }
 
-        public async Task<FlightModel> FindFlight(string flightId, CancellationToken cancellationToken)
+        public async Task<FlightModel> FindFlight(int flightId, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            return await _cosmosDBProvider.FindById<FlightModel>(docClient, COLLECTIONNAME, flightId, cancellationToken);
+            return await _cosmosDBProvider.FindById<FlightModel>(docClient, COLLECTIONNAME, flightId.ToString(), cancellationToken);
         }
 
         public async Task<IEnumerable<FlightModel>> FindFlights(string departingFrom, string arrivingAt, DateTimeOffset desiredTime, TimeSpan offset, CancellationToken cancellationToken)

@@ -8,9 +8,19 @@
   <ItemGroup>
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
+    <None Remove="SQLServer\Airports.sql" />
+    <None Remove="SQLServer\Cars.sql" />
+    <None Remove="SQLServer\Carts.sql" />
+    <None Remove="SQLServer\ClearDb.sql" />
+    <None Remove="SQLServer\Flights.sql" />
+    <None Remove="SQLServer\Hotels.sql" />
+    <None Remove="SQLServer\Itineraries.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\contosoSettings.json" Link="contosoSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="appsettings.Development.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -19,6 +29,16 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SQLServer\Airports.sql" />
+    <EmbeddedResource Include="SQLServer\Cars.sql" />
+    <EmbeddedResource Include="SQLServer\Carts.sql" />
+    <EmbeddedResource Include="SQLServer\ClearDb.sql" />
+    <EmbeddedResource Include="SQLServer\Flights.sql" />
+    <EmbeddedResource Include="SQLServer\Hotels.sql" />
+    <EmbeddedResource Include="SQLServer\Itineraries.sql" />
   </ItemGroup>
 
   <ItemGroup>

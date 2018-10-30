@@ -14,8 +14,8 @@ namespace ContosoTravel.Web.Host.MVC.FullFramework
             if (string.IsNullOrEmpty(cartId))
             {
                 CartModel currentCart = new CartModel();
-                currentContext.Response.Cookies.Add(new System.Web.HttpCookie("CartId", currentCart.Id));
-                cartId = currentCart.Id;
+                cartId = currentCart.Id.ToString("n");
+                currentContext.Response.Cookies.Add(new System.Web.HttpCookie("CartId", cartId));
             }
             return cartId;
         }
@@ -23,17 +23,7 @@ namespace ContosoTravel.Web.Host.MVC.FullFramework
         public void SetCartCookie(string cookieId)
         {
             var currentContext = System.Web.HttpContext.Current;
-            string cartId = currentContext.Request.Cookies.Get("CartId")?.Value ?? string.Empty;
-            if (string.IsNullOrEmpty(cartId))
-            {
-                CartModel currentCart = new CartModel();
-                currentContext.Response.Cookies.Add(new System.Web.HttpCookie("CartId", currentCart.Id));
-                cartId = currentCart.Id;
-            }
-            else
-            {
-                currentContext.Response.Cookies.Set(new System.Web.HttpCookie("CartId", cartId));
-            }            
+            currentContext.Response.Cookies.Add(new System.Web.HttpCookie("CartId", cookieId));
         }
     }
 }

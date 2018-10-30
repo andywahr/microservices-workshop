@@ -12,5 +12,6 @@ namespace ContosoTravel.Web.Application.Models
     public class ItineraryPersistenceModel : CartPersistenceModel
     {
         public string RecordLocator { get; set; }
+        public DateTimeOffset PurchasedOn { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
             return await Task.FromResult(cart);
         }
 
-        public async Task<CartPersistenceModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartFlights(string cartId, int departingFlightId, int returningFlightId, CancellationToken cancellationToken)
         {
             CartPersistenceModel cart;
 
@@ -37,7 +37,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
             return await Task.FromResult(cart);
         }
 
-        public async Task<CartPersistenceModel> UpsertCartCar(string cartId, string carId, double numberOfDays, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartCar(string cartId, int carId, double numberOfDays, CancellationToken cancellationToken)
         {
             CartPersistenceModel cart;
 
@@ -53,7 +53,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
             return await Task.FromResult(cart);
 
         }
-        public async Task<CartPersistenceModel> UpsertCartHotel(string cartId, string hotelId, int numberOfDays, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartHotel(string cartId, int hotelId, int numberOfDays, CancellationToken cancellationToken)
         {
             CartPersistenceModel cart;
 

@@ -14,7 +14,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
     {
         private readonly IAirportDataProvider _airportDataProvider;
         AsyncLazy<IEnumerable<CarModel>> _carModels;
-        AsyncLazy<Dictionary<string, CarModel>> _carModelLookup;
+        AsyncLazy<Dictionary<int, CarModel>> _carModelLookup;
 
         public CarDataMockProvider()
         {
@@ -24,7 +24,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                 return await GetAll(CancellationToken.None);
             });
 
-            _carModelLookup = new AsyncLazy<Dictionary<string, CarModel>>(async () =>
+            _carModelLookup = new AsyncLazy<Dictionary<int, CarModel>>(async () =>
             {
                 return (await _carModels).ToDictionary(car => car.Id, car => car);
             });
@@ -37,7 +37,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                                        f.EndingTime > desiredTime).OrderBy(c => c.Cost);
         }
 
-        public async Task<CarModel> FindCar(string carId, CancellationToken cancellationToken)
+        public async Task<CarModel> FindCar(int carId, CancellationToken cancellationToken)
         {
             return (await _carModelLookup)[carId];
         }

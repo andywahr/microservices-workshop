@@ -14,22 +14,24 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
     public class CarDataCosmosSQLProvider : IWritableDataProvider<CarModel>, ICarDataProvider
     {
         private readonly CosmosDBProvider _cosmosDBProvider;
+        private readonly IAirportDataProvider _airportDataProvider;
         const string COLLECTIONNAME = "Cars";
         private AsyncLazy<DocumentClient> _getClientAndVerifyCollection;
 
-        public CarDataCosmosSQLProvider(CosmosDBProvider cosmosDBProvider)
+        public CarDataCosmosSQLProvider(CosmosDBProvider cosmosDBProvider, IAirportDataProvider airportDataProvider)
         {
             _cosmosDBProvider = cosmosDBProvider;
+            _airportDataProvider = airportDataProvider;
             _getClientAndVerifyCollection = new AsyncLazy<DocumentClient>(async () =>
             {
                 return await _cosmosDBProvider.GetDocumentClientAndVerifyCollection(COLLECTIONNAME, new string[] { "/location", "/startingTimeEpoc", "/endingTimeEpoc" });
             });
         }
 
-        public async Task<CarModel> FindCar(string carId, CancellationToken cancellationToken)
+        public async Task<CarModel> FindCar(int carId, CancellationToken cancellationToken)
         {
             var docClient = await _getClientAndVerifyCollection;
-            return await _cosmosDBProvider.FindById<CarModel>(docClient, COLLECTIONNAME, carId, cancellationToken);
+            return await _cosmosDBProvider.FindById<CarModel>(docClient, COLLECTIONNAME, carId.ToString(), cancellationToken);
         }
 
         public async Task<IEnumerable<CarModel>> FindCars(string location, DateTimeOffset desiredTime, CancellationToken cancellationToken)
@@ -45,5 +47,6 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             var docClient = await _getClientAndVerifyCollection;
             return await _cosmosDBProvider.Persist<CarModel>(docClient, COLLECTIONNAME, instance, cancellationToken);
         }
+
     }
 }

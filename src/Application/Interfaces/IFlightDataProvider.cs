@@ -10,6 +10,6 @@ namespace ContosoTravel.Web.Application.Interfaces
     public interface IFlightDataProvider
     {
         Task<IEnumerable<FlightModel>> FindFlights(string departingFrom, string arrivingAt, DateTimeOffset desiredTime, TimeSpan offset, CancellationToken cancellationToken);
-        Task<FlightModel> FindFlight(string flightId, CancellationToken cancellationToken);
+        Task<FlightModel> FindFlight(int flightId, CancellationToken cancellationToken);
     }
 }

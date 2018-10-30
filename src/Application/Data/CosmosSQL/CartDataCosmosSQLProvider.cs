@@ -1,15 +1,11 @@
 ﻿using ContosoTravel.Web.Application.Interfaces;
-using Microsoft.Azure.Documents;
+using ContosoTravel.Web.Application.Models;
 using Microsoft.Azure.Documents.Client;
 using Nito.AsyncEx;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using ContosoTravel.Web.Application.Models;
-using Microsoft.Azure.Documents.Linq;
 
 
 namespace ContosoTravel.Web.Application.Data.CosmosSQL
@@ -37,7 +33,7 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             return (await _cosmosDBProvider.GetAll<CartPersistenceModel>(docClient, COLLECTIONNAME, (q) => q.Where(f => f.Id == cartId), cancellationToken)).FirstOrDefault();
         }
 
-        public async Task<CartPersistenceModel> UpsertCartFlights(string cartId, string departingFlightId, string returningFlightId, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartFlights(string cartId, int departingFlightId, int returningFlightId, CancellationToken cancellationToken)
         {
             return await UpdateAndPersist(cartId, (cart) =>
             {
@@ -46,7 +42,7 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             }, cancellationToken);
         }
 
-        public async Task<CartPersistenceModel> UpsertCartCar(string cartId, string carId, double numberOfDays, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartCar(string cartId, int carId, double numberOfDays, CancellationToken cancellationToken)
         {
             return await UpdateAndPersist(cartId, (cart) =>
             {
@@ -55,7 +51,7 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             }, cancellationToken);
         }
 
-        public async Task<CartPersistenceModel> UpsertCartHotel(string cartId, string hotelId, int numberOfDays, CancellationToken cancellationToken)
+        public async Task<CartPersistenceModel> UpsertCartHotel(string cartId, int hotelId, int numberOfDays, CancellationToken cancellationToken)
         {
             return await UpdateAndPersist(cartId, (cart) =>
             {

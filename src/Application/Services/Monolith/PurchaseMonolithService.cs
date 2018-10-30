@@ -16,10 +16,10 @@ namespace ContosoTravel.Web.Application.Services.Monolith
             _fulfillmentService = fulfillmentService;
         }
 
-        public async Task<bool> SendForProcessing(string cartId, CancellationToken cancellationToken)
+        public async Task<bool> SendForProcessing(string cartId, System.DateTimeOffset PurchasedOn, CancellationToken cancellationToken)
         {
             await Task.Delay(_random.Next(0, 30) * 1000);   
-            string recordId = await _fulfillmentService.Purchase(cartId, cancellationToken);
+            string recordId = await _fulfillmentService.Purchase(cartId, PurchasedOn, cancellationToken);
             return !string.IsNullOrEmpty(recordId);
         }
     }

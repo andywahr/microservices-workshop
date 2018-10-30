@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ContosoTravel.Web.Application;
 using ContosoTravel.Web.Application.Data.Mock;
 using ContosoTravel.Web.Application.Interfaces;
 using ContosoTravel.Web.Application.Models;
@@ -7,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nito.AsyncEx;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,7 +33,6 @@ namespace DataLoader
             AppConfig = new ConfigurationBuilder()
                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                            .AddEnvironmentVariables().Build();
-            ContosoTravel.Web.Application.ContosoConfiguration.PopulateFromConfig((name) => AppConfig[name]);
             SetupIoC();
             await DataLoad(cts.Token);
         }
@@ -37,9 +40,22 @@ namespace DataLoader
         private static async Task DataLoad(CancellationToken cancellationToken)
         {
             await LoadData<IAirportDataProvider, AirportModel>(cancellationToken);
-            await LoadData<ICarDataProvider, CarModel>(cancellationToken);
-            await LoadData<IHotelDataProvider, HotelModel>(cancellationToken);
-            await LoadData<IFlightDataProvider, FlightModel>(cancellationToken);
+            await Task.WhenAll(LoadData<ICarDataProvider, CarModel>(cancellationToken),
+                               LoadData<IHotelDataProvider, HotelModel>(cancellationToken),
+                               LoadData<IFlightDataProvider, FlightModel>(cancellationToken));
+            //await LoadData<ICarDataProvider, CarModel>(cancellationToken);
+            //await LoadData<IHotelDataProvider, HotelModel>(cancellationToken);
+            //await LoadData<IFlightDataProvider, FlightModel>(cancellationToken);
+        }
+
+        public static IEnumerable<T[]> GetChunk<T>(IEnumerable<T> input, int size)
+        {
+            int i = 0;
+            while (input.Count() > size * i)
+            {
+                yield return input.Skip(size * i).Take(size).ToArray();
+                i++;
+            }
         }
 
         private static async Task LoadData<IData, DataType>(CancellationToken cancellationToken)
@@ -49,10 +65,19 @@ namespace DataLoader
 
             var allItems = await dataSource.GetAll(cancellationToken);
             Console.WriteLine($"Loading {typeof(DataType).Name}");
-
-            foreach (DataType item in allItems)
+            int count = 0;
+            int increment = 20;
+            foreach (var items in GetChunk(allItems, increment))
             {
-                await dataAdapter.Persist(item, cancellationToken);
+                Console.WriteLine($"\tLoadint {typeof(DataType).Name}: [{count * increment} to {(++count) * increment}] out of {allItems.Count()}]");
+
+                List<Task> waitForMe = new List<Task>();
+                foreach (DataType item in items)
+                {
+                    waitForMe.Add(dataAdapter.Persist(item, cancellationToken));
+                }
+
+                await Task.WhenAll(waitForMe);
             }
         }
 
@@ -75,7 +100,7 @@ namespace DataLoader
             // to add them to Autofac.
             containerBuilder.Populate(serviceCollection);
 
-            containerBuilder.RegisterAssemblyModules(typeof(Program).Assembly, typeof(ContosoTravel.Web.Application.ContosoConfiguration).Assembly);
+            Setup.InitCotoso(AppConfig["KeyVaultUrl"], Directory.GetCurrentDirectory(), typeof(Program).Assembly, containerBuilder);
 
             Container = containerBuilder.Build();
             ServiceProvider = new AutofacServiceProvider(Container);

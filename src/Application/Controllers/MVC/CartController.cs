@@ -37,13 +37,13 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
             
             if ( (await _itineraryController.GetByCartId(cancellationToken)) == null )
             {
-                return new CartModel() { Id = cartId };
+                return new CartModel() { Id = System.Guid.Parse(cartId) };
             }
 
             return null;
         }
 
-        public async Task<bool> Purchase(CancellationToken cancellationToken)
+        public async Task<bool> Purchase(System.DateTimeOffset PurchasedOn, CancellationToken cancellationToken)
         {
             string cartId = _cartCookieProvider.GetCartCookie();
             var cart = await _cartDataProvider.GetCart(cartId, cancellationToken);
@@ -53,7 +53,7 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
                 return false;
             }
 
-            return await _purchaseService.SendForProcessing(cart.Id, cancellationToken);
+            return await _purchaseService.SendForProcessing(cart.Id, PurchasedOn, cancellationToken);
         }
     }
 }

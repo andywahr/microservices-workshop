@@ -36,7 +36,7 @@ namespace ContosoTravel.Web.Function.EventGrid
             var fulfillmentService = container.Resolve<FulfillmentService>();
 
             log.LogDebug("Calling Purchase method");
-            string recordLocator = await fulfillmentService.Purchase(req.CartId, cancellationToken);
+            string recordLocator = await fulfillmentService.Purchase(req.CartId, req.PurchasedOn, cancellationToken);
 
             if ( string.IsNullOrEmpty(recordLocator))
             {

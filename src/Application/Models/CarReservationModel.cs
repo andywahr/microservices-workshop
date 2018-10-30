@@ -6,6 +6,6 @@ namespace ContosoTravel.Web.Application.Models
     {
         public IEnumerable<CarModel> Cars { get; set; }
         public double NumberOfDays { get; set; }
-        public string SelectedCar { get; set; }
+        public int SelectedCar { get; set; }
     }
 }

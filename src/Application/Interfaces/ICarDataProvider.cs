@@ -10,6 +10,6 @@ namespace ContosoTravel.Web.Application.Interfaces
     public interface ICarDataProvider
     {
         Task<IEnumerable<CarModel>> FindCars(string location, DateTimeOffset desiredTime, CancellationToken cancellationToken);
-        Task<CarModel> FindCar(string carId, CancellationToken cancellationToken);
+        Task<CarModel> FindCar(int carId, CancellationToken cancellationToken);
     }
 }

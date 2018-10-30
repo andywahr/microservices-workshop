@@ -38,7 +38,7 @@ namespace ContosoTravel.Web.Functions.ServiceBus
             var fulfillmentService = container.Resolve<FulfillmentService>();
 
             log.LogDebug("Calling Purchase method");
-            string recordLocator = await fulfillmentService.Purchase(purchaseItineraryMessage.CartId, cancellationToken);
+            string recordLocator = await fulfillmentService.Purchase(purchaseItineraryMessage.CartId, purchaseItineraryMessage.PurchasedOn, cancellationToken);
 
             if (string.IsNullOrEmpty(recordLocator))
             {

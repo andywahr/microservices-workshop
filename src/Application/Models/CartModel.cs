@@ -9,10 +9,10 @@ namespace ContosoTravel.Web.Application.Models
     {
         public CartModel()
         {
-            Id = Guid.NewGuid().ToString("n");
+            Id = Guid.NewGuid();
         }
 
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public FlightModel DepartingFlight { get; set; }
         public FlightModel ReturningFlight { get; set; }
         public CarModel CarReservation { get; set; }
@@ -26,11 +26,11 @@ namespace ContosoTravel.Web.Application.Models
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
-        public string DepartingFlight { get; set; }
-        public string ReturningFlight { get; set; }
-        public string CarReservation { get; set; }
+        public int DepartingFlight { get; set; }
+        public int ReturningFlight { get; set; }
+        public int CarReservation { get; set; }
         public double CarReservationDuration { get; set; }
-        public string HotelReservation { get; set; }
+        public int HotelReservation { get; set; }
         public int HotelReservationDuration { get; set; }
     }
 }

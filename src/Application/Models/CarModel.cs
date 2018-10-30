@@ -11,11 +11,28 @@ namespace ContosoTravel.Web.Application.Models
     {
         public CarModel()
         {
-            Id = Guid.NewGuid().ToString("n");
+            Id = BaseData.GetNextKey();
         }
 
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        public string IdString
+        {
+            get
+            {
+                return Id.ToString();
+            }
+            set
+            {
+                int tmp;
+                if (int.TryParse(value, out tmp))
+                {
+                    Id = tmp;
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public int Id { get; set; }
         public string Location { get; set; }
 
         public AirportModel LocationAirport { get; set; }
@@ -64,13 +81,13 @@ namespace ContosoTravel.Web.Application.Models
         public double NumberOfDays { get; set; }
     }
 
-    public enum CarType
+    public enum CarType : int
     {
-        Compact,
-        Intermediate,
-        Full,
-        SUV,
-        Minivan,
-        Convertable
+        Compact = 0,
+        Intermediate = 1,
+        Full = 2,
+        SUV = 3,
+        Minivan = 4,
+        Convertable = 5
     }
 }

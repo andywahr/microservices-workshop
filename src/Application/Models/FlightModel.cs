@@ -10,11 +10,28 @@ namespace ContosoTravel.Web.Application.Models
     {
         public FlightModel()
         {
-            Id = Guid.NewGuid().ToString("n");
+            Id = BaseData.GetNextKey();
         }
 
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        public string IdString
+        {
+            get
+            {
+                return Id.ToString();
+            }
+            set
+            {
+                int tmp;
+                if (int.TryParse(value, out tmp))
+                {
+                    Id = tmp;
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public int Id { get; set; }
         public string DepartingFrom { get; set; }
         public string ArrivingAt { get; set; }
         public DateTimeOffset DepartureTime { get; set; }

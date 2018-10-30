@@ -7,14 +7,15 @@
 
 @using (Html.BeginForm("Purchase", "Cars", FormMethod.Post, new { @class = "form-inline" }))
 {
-    <div>
-        @foreach (var car in Model.Cars)
-        {
-            var displayCar = new ContosoTravel.Web.Application.Models.CarModelWithPrice(car, Model.NumberOfDays);
-            @Html.DisplayFor(m => displayCar);
-        }
-        <input type="hidden" name="NumberOfDays" value="@Model.NumberOfDays" />
-        <input type="submit" value="Add To Cart" class="btn btn-success" />
-    </div>
+<div>
+    @foreach (var car in Model.Cars.OrderBy(c => c.Cost))
+    {
+        var displayCar = new ContosoTravel.Web.Application.Models.CarModelWithPrice(car, Model.NumberOfDays);
+        @Html.DisplayFor(m => displayCar);
+    }
+
+    <input type="hidden" name="NumberOfDays" value="@Model.NumberOfDays" />
+    <input type="submit" value="Add To Cart" class="btn btn-success" />
+</div>
 }
 

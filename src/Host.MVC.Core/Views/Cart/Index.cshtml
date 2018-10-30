@@ -12,5 +12,6 @@
 
 @using (Html.BeginForm("Purchase", "Cart", FormMethod.Post, new { @class = "form-inline" }))
 {
+    <input type="hidden" name="PurchasedOn" value="@DateTimeOffset.UtcNow" />
     <input type="submit" value="Purchase" class="btn btn-success" />
 }

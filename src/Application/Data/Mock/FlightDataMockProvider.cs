@@ -14,7 +14,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
     {
         private readonly IAirportDataProvider _airportDataProvider;
         AsyncLazy<IEnumerable<FlightModel>> _flightModels;
-        AsyncLazy<Dictionary<string, FlightModel>> _flightModelLookup;
+        AsyncLazy<Dictionary<int, FlightModel>> _flightModelLookup;
          
         public FlightDataMockProvider()
         {
@@ -24,7 +24,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                 return await GetAll(CancellationToken.None);
             });
 
-            _flightModelLookup = new AsyncLazy<Dictionary<string, FlightModel>>(async () =>
+            _flightModelLookup = new AsyncLazy<Dictionary<int, FlightModel>>(async () =>
             {
                 return (await _flightModels).ToDictionary(flight => flight.Id, flight => flight);
             });
@@ -37,7 +37,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                                        f.DepartureTime < desiredTime.Add(offset)).OrderBy(f => f.DepartureTime);
         }
 
-        public async Task<FlightModel> FindFlight(string flightId, CancellationToken cancellationToken)
+        public async Task<FlightModel> FindFlight(int flightId, CancellationToken cancellationToken)
         {
             return (await _flightModelLookup)[flightId];
         }

@@ -8,7 +8,7 @@ namespace ContosoTravel.Web.Application.Models
     {
         public IEnumerable<FlightModel> DepartingFlights { get; set; }
         public IEnumerable<FlightModel> ReturningFlights { get; set; }
-        public string SelectedDepartingFlight { get; set; }
-        public string SelectedReturningFlight { get; set; }
+        public int SelectedDepartingFlight { get; set; }
+        public int SelectedReturningFlight { get; set; }
     }
 }

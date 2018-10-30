@@ -27,9 +27,9 @@ namespace ContosoTravel.Web.Host.MVC.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Purchase(CarReservationModel flight, CancellationToken cancellationToken)
+        public async Task<IActionResult> Purchase(CarReservationModel car, CancellationToken cancellationToken)
         {
-            await _carsController.Purchase(flight, cancellationToken);
+            await _carsController.Purchase(car, cancellationToken);
             return RedirectToAction("Index", "Cart");
         }
     }

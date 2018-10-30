@@ -41,7 +41,8 @@ namespace ContosoTravel.Web.Host.MVC.Core
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            Setup.InitCotoso(Configuration["KeyVaultUrl"], Directory.GetCurrentDirectory(), typeof(Startup).Assembly, builder);
+            var thisAssembly = typeof(Startup).Assembly;
+            Setup.InitCotoso(Configuration["KeyVaultUrl"], Path.GetDirectoryName(thisAssembly.Location), typeof(Startup).Assembly, builder);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
