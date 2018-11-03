@@ -31,6 +31,7 @@ namespace DataLoader
         {
             CancellationTokenSource cts = new CancellationTokenSource();
             AppConfig = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                            .AddEnvironmentVariables().Build();
             SetupIoC();
