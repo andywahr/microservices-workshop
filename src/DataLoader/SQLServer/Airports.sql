@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[Airports]
     [State] [CHAR](2) NOT NULL,
     [AirportName] [VARCHAR](255) NOT NULL,
     [CityName] [VARCHAR](50) NOT NULL,
-    [TimeZone] [CHAR](50) NOT NULL,
+    [TimeZone] [VARCHAR](50) NOT NULL,
     CONSTRAINT [PK_Airports] PRIMARY KEY CLUSTERED ([AirportCode] ASC)
 );
 GO
@@ -28,7 +28,7 @@ CREATE PROCEDURE dbo.CreateAirport
     @State [CHAR](2),
     @AirportName [VARCHAR](255),
     @CityName [VARCHAR](50),
-    @TimeZone [CHAR](50)
+    @TimeZone [VARCHAR](50)
 AS
     INSERT INTO Airports (AirportCode, AirportName, [State], CityName, TimeZone)
                 VALUES (@AirportCode, @AirportName, @State, @CityName, @TimeZone)

@@ -8,18 +8,25 @@ namespace DataLoader.SQLServer
 {
     public class SQLServerConnectionProvider : ISQLServerConnectionProvider
     {
-        private readonly ContosoConfiguration _contosoConfiguration;
+        private string _connectionString;
 
         public SQLServerConnectionProvider(ContosoConfiguration contosoConfiguration)
         {
-            _contosoConfiguration = contosoConfiguration;
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.UserID = contosoConfiguration.DataAccountUserName;
+            builder.Password = contosoConfiguration.DataAccountPassword;
+            builder.IntegratedSecurity = false;
+            builder.DataSource = $"{contosoConfiguration.DataAccountName}.database.windows.net";
+            builder.InitialCatalog = contosoConfiguration.DatabaseName;
+            _connectionString = builder.ConnectionString;
         }
 
         public async Task<SqlConnection> GetOpenConnection(CancellationToken cancellationToken)
         {
-            var newConnection = new SqlConnection($"Server={_contosoConfiguration.DataAccountName}.database.windows.net;Database={_contosoConfiguration.DatabaseName};User Id={_contosoConfiguration.DataAdministratorLogin};Password={_contosoConfiguration.DataAdministratorLoginPassword};");
+            var newConnection = new SqlConnection(_connectionString);
             await newConnection.OpenAsync(cancellationToken);
             return newConnection;
         }
+
     }
 }

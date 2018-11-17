@@ -440,6 +440,7 @@
     </Compile>
     <Compile Include="IoC\HostModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLServerConnectionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\Host.MVC.Core\wwwroot\css\site.css">

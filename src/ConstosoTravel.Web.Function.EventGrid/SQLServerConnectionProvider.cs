@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ContosoTravel.Web.Host.MVC.Core
+namespace ContosoTravel.Web.Functions.EventGrid
 {
     public class SQLServerConnectionProvider : ISQLServerConnectionProvider
     {
@@ -30,6 +30,5 @@ namespace ContosoTravel.Web.Host.MVC.Core
             await newConnection.OpenAsync(cancellationToken);
             return newConnection;
         }
-
     }
 }

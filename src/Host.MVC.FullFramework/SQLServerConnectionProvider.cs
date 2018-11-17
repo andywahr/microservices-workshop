@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ContosoTravel.Web.Host.MVC.Core
+namespace ContosoTravel.Web.Host.MVC.FullFramework
 {
     public class SQLServerConnectionProvider : ISQLServerConnectionProvider
     {
