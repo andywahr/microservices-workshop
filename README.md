@@ -1,2 +1,2 @@
 # contosotravel-web-nodejs
-Node JS version of Contoso Tavel
+.Net version of Contoso Tavel
