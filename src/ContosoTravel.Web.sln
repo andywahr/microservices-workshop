@@ -20,6 +20,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		contosoSettings.json = contosoSettings.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildYamls", "BuildYamls", "{85EE7552-5DA9-4105-919D-31A3258CA2D5}"
+	ProjectSection(SolutionItems) = preProject
+		dataLoader-build.yaml = dataLoader-build.yaml
+		services-core-eventGrid-build.yaml = services-core-eventGrid-build.yaml
+		services-core-serviceBus-build.yaml = services-core-serviceBus-build.yaml
+		web-core-build.yaml = web-core-build.yaml
+		web-full-build.yaml = web-full-build.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		DataLoaders|Any CPU = DataLoaders|Any CPU

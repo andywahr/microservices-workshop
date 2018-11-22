@@ -1,0 +1,54 @@
+resources:
+- repo: self
+queue:
+  name: Hosted VS2017
+
+steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core Tool Installer'
+  inputs:
+    version: 2.1.105
+
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+
+    projects: '**/*.csproj'
+
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: '**/*.csproj'
+
+    arguments: '--configuration DataLoaders'
+
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+
+    projects: '**/*Tests/*.csproj'
+
+    arguments: '--configuration DataLoaders'
+
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+
+    publishWebProjects: True
+
+    arguments: '--configuration DataLoaders --output $(build.artifactstagingdirectory)'
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
+
