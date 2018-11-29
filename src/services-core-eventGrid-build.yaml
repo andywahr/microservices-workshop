@@ -15,13 +15,13 @@ steps:
   inputs:
     command: restore
 
-    projects: '**/*.csproj'
+    projects: '**/*.sln'
 
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: '**/*.csproj'
+    projects: '**/*.sln'
 
     arguments: '--configuration ServicesCoreEventGrid'
 
