@@ -40,6 +40,8 @@ steps:
   displayName: Publish
   inputs:
     command: publish
+	  
+	projects: 'src/Host.MVC.Core.csproj'
 
     publishWebProjects: True
 
