@@ -1,0 +1,15 @@
+{
+  "ContosoTravel": {
+    "ServicesType": "ServiceBus",
+    "DataType": "SQL",
+    "ServicesMiddlewareAccountName": "arkhitekton-dev",
+    "DataAccountName": "andywahr-contosotravel-sqldb",
+    "DatabaseName": "ContosoTravel",
+    "SubscriptionId": "23d8c84a-ad22-409f-8fe6-d81e2439b47a",
+    "TenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+    "ResourceGroupName": "rg-arkhitekton-dev",
+    "AzureRegion": "southcentralus",
+    "DataAdministratorLogin": "contosoAdmin",
+    "DataAdministratorLoginPassword": "Password#1"
+  }
+}
