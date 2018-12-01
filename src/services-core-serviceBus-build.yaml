@@ -1,54 +1,13 @@
-resources:
-- repo: self
+variables:
+  BuildConfiguration: ServiceCoreServiceBus
+  BuildPlatform: Any CPU
+
 queue:
   name: Hosted VS2017
+  demands: 
+  - msbuild
+  - visualstudio
+  - vstest
 
 steps:
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core Tool Installer'
-  inputs:
-    version: 2.1.105
-
-
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-
-    projects: '**/*.sln'
-
-
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    projects: '**/*.sln'
-
-    arguments: '--configuration ServicesCoreServiceBus'
-
-
-- task: DotNetCoreCLI@2
-  displayName: Test
-  inputs:
-    command: test
-
-    projects: '**/*Tests/*.csproj'
-
-    arguments: '--configuration ServicesCoreServiceBus'
-
-
-- task: DotNetCoreCLI@2
-  displayName: Publish
-  inputs:
-    command: publish
-
-    publishWebProjects: True
-
-    arguments: '--configuration ServicesCoreServiceBus --output $(build.artifactstagingdirectory)'
-
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-
-
+- template: build.yml
