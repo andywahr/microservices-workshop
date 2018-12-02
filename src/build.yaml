@@ -1,3 +1,6 @@
+parameters:
+  ConnectedServiceName: ''
+
 steps:
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 4.4.1'
@@ -53,7 +56,7 @@ steps:
 - task: AzureRmWebAppDeployment@3
   displayName: 'Azure App Service Deploy: $(WebAppType) - $(WebAppName)'
   inputs:
-    azureSubscription: '$(Parameters.ConnectedServiceName)'
+    azureSubscription: '${{ parameters.ConnectedServiceName }}'
 
     appType: '$(WebAppType)'
 
