@@ -13,4 +13,4 @@ jobs:
   steps:
   - template: ./build.yaml
     parameters:
-      ConnectedServiceName: $(ConnectedService)
+      ConnectedServiceName: $(ConnectedServiceName)

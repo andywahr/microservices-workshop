@@ -12,3 +12,5 @@ jobs:
     - vstest
   steps:
   - template: ./build.yaml
+    parameters:
+      ConnectedServiceName: $(ConnectedServiceName)
