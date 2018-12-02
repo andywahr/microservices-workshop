@@ -51,13 +51,13 @@ steps:
   enabled: false
 
 - task: AzureRmWebAppDeployment@3
-  displayName: 'Azure App Service Deploy: $(parameters.WebAppType) - $(parameters.WebAppName)'
+  displayName: 'Azure App Service Deploy: $(WebAppType) - $(WebAppName)'
   inputs:
-    azureSubscription: '$(parameters.ConnectedServiceName)'
+    azureSubscription: '$(ConnectedServiceName)'
 
-    appType: '$(parameters.WebAppType)'
+    appType: '$(WebAppType)'
 
-    WebAppName: '$(parameters.WebAppName)'
+    WebAppName: '$(WebAppName)'
 
     Package: '$(build.artifactstagingdirectory)/**/*.zip'
 
@@ -67,4 +67,4 @@ steps:
 
     RemoveAdditionalFilesFlag: true
 
-  condition: and(always(), eq(parameters['DeployPlatform'], 'appservice'))
+  condition: and(always(), eq(variables['DeployPlatform'], 'appservice'))
