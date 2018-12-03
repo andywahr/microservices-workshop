@@ -25,11 +25,19 @@ namespace DataLoader.SQLServer
 
         public async Task Configure(CancellationToken cancellationToken)
         {
+            using (SqlConnection connection = new SqlConnection($"Server={_contosoConfiguration.DataAccountName}.database.windows.net;Database=Master;User Id={_contosoConfiguration.DataAdministratorLogin};Password={_contosoConfiguration.DataAdministratorLoginPassword};"))
+            {
+                await connection.OpenAsync(cancellationToken);
+                Server server = new Server(new ServerConnection(connection));
+                server.ConnectionContext.ExecuteNonQuery($"CREATE LOGIN {_contosoConfiguration.DataAccountUserName} WITH PASSWORD = '{_contosoConfiguration.DataAccountPassword}';\nGO\nCREATE USER {_contosoConfiguration.DataAccountUserName} FROM LOGIN {_contosoConfiguration.DataAccountUserName};\nGO");
+            }
+
             using (SqlConnection connection = new SqlConnection($"Server={_contosoConfiguration.DataAccountName}.database.windows.net;Database={_contosoConfiguration.DatabaseName};User Id={_contosoConfiguration.DataAdministratorLogin};Password={_contosoConfiguration.DataAdministratorLoginPassword};"))
             {
                 await connection.OpenAsync(cancellationToken);
                 Server server = new Server(new ServerConnection(connection));
 
+                server.ConnectionContext.ExecuteNonQuery($"CREATE USER {_contosoConfiguration.DataAccountUserName} FROM LOGIN {_contosoConfiguration.DataAccountUserName};\nGO\nGRANT EXECUTE TO {_contosoConfiguration.DataAccountUserName};\nGO");
                 server.ConnectionContext.ExecuteNonQuery(ReadResource("Airports.sql"));
                 server.ConnectionContext.ExecuteNonQuery(ReadResource("Cars.sql"));
                 server.ConnectionContext.ExecuteNonQuery(ReadResource("Flights.sql"));

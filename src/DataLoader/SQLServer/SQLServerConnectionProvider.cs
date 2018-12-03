@@ -13,8 +13,8 @@ namespace DataLoader.SQLServer
         public SQLServerConnectionProvider(ContosoConfiguration contosoConfiguration)
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.UserID = contosoConfiguration.DataAccountUserName;
-            builder.Password = contosoConfiguration.DataAccountPassword;
+            builder.UserID = contosoConfiguration.DataAdministratorLogin;
+            builder.Password = contosoConfiguration.DataAdministratorLoginPassword;
             builder.IntegratedSecurity = false;
             builder.DataSource = $"{contosoConfiguration.DataAccountName}.database.windows.net";
             builder.InitialCatalog = contosoConfiguration.DatabaseName;

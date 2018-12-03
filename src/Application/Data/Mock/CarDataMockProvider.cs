@@ -59,7 +59,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
                 for (int dayOffset = -1; dayOffset < 14; dayOffset++)
                 {
                     DateTime today = DateTime.Now.Date.AddDays(dayOffset);
-                    TimeZoneInfo airPortTimeZone = TimeZoneInfo.FindSystemTimeZoneById(airPort.TimeZone);
+                    TimeZoneInfo airPortTimeZone = ContosoTravel.Web.Application.Extensions.TimeZoneHelper.FindSystemTimeZoneById(airPort.TimeZone);
                     DateTimeOffset startDate = DateTimeOffset.Parse($"{today.ToString("MM/dd/yyyy")} 12:00 AM {airPortTimeZone.BaseUtcOffset.Hours.ToString("00")}:{airPortTimeZone.BaseUtcOffset.Minutes.ToString("00")}");
                     if (airPortTimeZone.IsDaylightSavingTime(today))
                     {
@@ -90,7 +90,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
         private DateTimeOffset CalcLocalTime(FlightTime flightTime, AirportModel arrivingAt, DateTimeOffset departDate)
         {
             DateTimeOffset arrivalTime = departDate.Add(flightTime.Duration);
-            TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(arrivingAt.TimeZone);
+            TimeZoneInfo timeZoneInfo = ContosoTravel.Web.Application.Extensions.TimeZoneHelper.FindSystemTimeZoneById(arrivingAt.TimeZone);
 
             if (timeZoneInfo.IsDaylightSavingTime(arrivalTime))
             {
