@@ -30,7 +30,7 @@ CREATE PROCEDURE dbo.GetCartById
     @Id UNIQUEIDENTIFIER
 AS
     SET NOCOUNT ON
-    SELECT [Id], [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration]  FROM Carts
+    SELECT  Lower(Replace(Convert(varchar(36), [Id]),'-', '')) as Id, [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration]  FROM Carts
     WHERE Id = @Id
 GO
 
@@ -60,8 +60,8 @@ WHERE SPECIFIC_SCHEMA = N'dbo'
 GO
 CREATE PROCEDURE dbo.UpsertCartFlights
     @Id UNIQUEIDENTIFIER,
-    @DepartingFlight [int],
-    @ReturningFlight [int]   
+    @DepartingFlight [int]  null,
+    @ReturningFlight [int]   null 
 AS
     SET NOCOUNT ON
     MERGE CARTS AS target  
@@ -84,8 +84,8 @@ WHERE SPECIFIC_SCHEMA = N'dbo'
 GO
 CREATE PROCEDURE dbo.UpsertCartCar
     @Id UNIQUEIDENTIFIER,
-    @CarReservation [int],
-    @CarReservationDuration [FLOAT]   
+    @CarReservation [int]  null,
+    @CarReservationDuration [FLOAT]  null 
 AS
     SET NOCOUNT ON
     MERGE CARTS AS target  
@@ -109,8 +109,8 @@ WHERE SPECIFIC_SCHEMA = N'dbo'
 GO
 CREATE PROCEDURE dbo.UpsertCartHotel
     @Id UNIQUEIDENTIFIER,
-    @HotelReservation [int],
-    @HotelReservationDuration [int]   
+    @HotelReservation [int] null,
+    @HotelReservationDuration [int]  null   
 AS
     SET NOCOUNT ON
 

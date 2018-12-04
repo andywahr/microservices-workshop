@@ -66,5 +66,5 @@ CREATE PROCEDURE dbo.FindHotels
 AS
     SET NOCOUNT ON
     SELECT Id, [Location], StartingTime, EndingTime, Cost, RoomType FROM HOTELS
-    WHERE [Location] = @Location AND StartingTime >= @DesiredTime AND EndingTime <= @DesiredTime
+    WHERE [Location] = @Location AND @DesiredTime between StartingTime AND EndingTime
 GO

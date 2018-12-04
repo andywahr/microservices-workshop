@@ -9,25 +9,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace ContosoTravel.Web.Application.Services.ServiceBus
 {
     public class PurchaseServiceBusService : IPurchaseService
     {
-        private readonly AsyncLazy<QueueClient> _serviceBusClient;
+        private readonly Lazy<QueueClient> _serviceBusClient;
         private readonly ContosoConfiguration _contosoConfig;
 
         public PurchaseServiceBusService(ContosoConfiguration contosoConfig, AzureManagement azureManagement)
         {
             _contosoConfig = contosoConfig;
-            _serviceBusClient = new AsyncLazy<QueueClient>(async () =>
+            _serviceBusClient = new Lazy<QueueClient>(() =>
             {
-                var azure = await azureManagement.ConnectToSubscription(_contosoConfig.SubscriptionId);
-                var serviceBusAccount = await azure.ServiceBusNamespaces.GetByResourceGroupAsync(_contosoConfig.ResourceGroupName, _contosoConfig.ServicesMiddlewareAccountName);
-                var writeOnlyAuthRule = await serviceBusAccount.AuthorizationRules.GetByNameAsync("WriteOnly");
-                string connectionString = writeOnlyAuthRule.GetKeys().PrimaryConnectionString;
-
-                return new QueueClient(connectionString, Constants.QUEUENAME, ReceiveMode.PeekLock, RetryPolicy.Default);
+                return new QueueClient(_contosoConfig.ServiceConnectionString, Constants.QUEUENAME, ReceiveMode.PeekLock, RetryPolicy.Default);
 
                 /*
                  * Still in Preview
@@ -41,7 +37,7 @@ namespace ContosoTravel.Web.Application.Services.ServiceBus
         {
             PurchaseItineraryMessage purchaseItineraryMessage = new PurchaseItineraryMessage() { CartId = cartId, PurchasedOn = PurchasedOn };
 
-            var client = await _serviceBusClient;
+            var client =  _serviceBusClient.Value;
             await client.SendAsync(new Message(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(purchaseItineraryMessage))));
 
             return true;

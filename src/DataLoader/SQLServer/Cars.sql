@@ -65,5 +65,5 @@ CREATE PROCEDURE dbo.FindCars
 AS
     SET NOCOUNT ON
     SELECT Id, [Location], StartingTime, EndingTime, Cost, CarType FROM CARS
-    WHERE [Location] = @Location AND StartingTime >= @DesiredTime AND EndingTime <= @DesiredTime
+    WHERE [Location] = @Location AND @DesiredTime between StartingTime AND EndingTime
 GO

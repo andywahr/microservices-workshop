@@ -32,7 +32,7 @@ CREATE PROCEDURE dbo.GetItineraryById
     @Id UNIQUEIDENTIFIER
 AS
     SET NOCOUNT ON
-    SELECT Lower(Replace(Convert(varchar(36), [Id]),'-', '')) as Id, [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration], [RecordLocator] FROM Itineraries
+    SELECT Lower(Replace(Convert(varchar(36), [Id]),'-', '')) as Id, [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration], [RecordLocator], [PurchasedOn] FROM Itineraries
     WHERE Id = @Id
 GO
 
@@ -48,7 +48,7 @@ CREATE PROCEDURE dbo.GetItineraryByRecordLocatorId
     @RecordLocator [varchar](10)
 AS
     SET NOCOUNT ON
-    SELECT Lower(Replace(Convert(varchar(36), [Id]),'-', '')) as Id, [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration], [RecordLocator] FROM Itineraries
+    SELECT Lower(Replace(Convert(varchar(36), [Id]),'-', '')) as Id, [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration], [RecordLocator], [PurchasedOn] FROM Itineraries
     WHERE RecordLocator = @RecordLocator
 GO
 
@@ -69,11 +69,12 @@ CREATE PROCEDURE dbo.UpsertItinerary
     @CarReservationDuration    [FLOAT]  null,
     @HotelReservation          [int]  null,
     @HotelReservationDuration  [int]  null,
-    @RecordLocator             [varchar](10)
+    @RecordLocator             [varchar](10),
+    @PurchasedOn               DateTimeOffset
 AS
     SET NOCOUNT ON
-    INSERT INTO Itineraries ([Id], [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration], [RecordLocator])
-                VALUES (@Id, @DepartingFlight, @ReturningFlight, @CarReservation, @CarReservationDuration, @HotelReservation, @HotelReservationDuration, @RecordLocator)
+    INSERT INTO Itineraries ([Id], [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration], [RecordLocator], [PurchasedOn])
+                VALUES (@Id, @DepartingFlight, @ReturningFlight, @CarReservation, @CarReservationDuration, @HotelReservation, @HotelReservationDuration, @RecordLocator, @PurchasedOn)
 
     MERGE Itineraries AS target  
     USING (SELECT @Id, @DepartingFlight, @ReturningFlight, @CarReservation, @CarReservationDuration, @HotelReservation, @HotelReservationDuration, @RecordLocator) AS source ([Id], [DepartingFlight], [ReturningFlight], [CarReservation], [CarReservationDuration], [HotelReservation], [HotelReservationDuration], [RecordLocator])  
