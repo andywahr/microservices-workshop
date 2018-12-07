@@ -1,29 +1,23 @@
-﻿using ContosoTravel.Web.Application.Interfaces.MVC;
+﻿using ContosoTravel.Web.Application.Interfaces;
+using ContosoTravel.Web.Application.Interfaces.MVC;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace ContosoTravel.Web.Host.MVC.Core.Controllers
 {
-    public class ItineraryController : Controller
+    public class TestController : Controller
     {
-        private readonly IItineraryController _itineraryController;
+        private readonly IAirportDataProvider _airportDataProvider;
 
-        public ItineraryController(IItineraryController itineraryController)
+        public TestController(IAirportDataProvider airportDataProvider)
         {
-            _itineraryController = itineraryController;
+            _airportDataProvider = airportDataProvider;
         }
 
-        public async Task<ActionResult> Index(CancellationToken cancellationToken, string recordLocator = "")
+        public async Task<ActionResult> Index(CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(recordLocator))
-            {
-                return View(await _itineraryController.GetByCartId(cancellationToken));
-            }
-            else
-            {
-                return View(await _itineraryController.GetByRecordLocator(recordLocator, cancellationToken));
-            }
+            return View(ContosoTravel.Web.Application.Models.TestSettings.GetNewTest(await _airportDataProvider.GetAll(cancellationToken)));
         }
     }
 }

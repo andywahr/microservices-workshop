@@ -434,6 +434,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\FlightsController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ItineraryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -515,6 +516,9 @@
     <Content Include="..\contosoSettings.json">
       <Link>contosoSettings.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Host.MVC.Core\Views\Test\Index.cshtml">
+      <Link>Views\Test\Index.cshtml</Link>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
