@@ -1,6 +1,7 @@
 ﻿@model ContosoTravel.Web.Application.Models.CarReservationModel
 @{
     ViewData["Title"] = $"Cars";
+    ViewData["SelectedCarId"] = Model.SelectedCar != 0 ? Model.SelectedCar.ToString() : null;
 }
 
 <h2>Car Search Results</h2>

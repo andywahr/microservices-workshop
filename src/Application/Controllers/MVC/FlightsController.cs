@@ -44,6 +44,17 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
             FlightReservationModel roundTrip = new FlightReservationModel();
             roundTrip.DepartingFlights = await _flightDataProvider.FindFlights(searchRequest.StartLocation, searchRequest.EndLocation, searchRequest.StartDate, THREEHOURSBEFOREORAFTER, cancellationToken);
             roundTrip.ReturningFlights = await _flightDataProvider.FindFlights(searchRequest.EndLocation, searchRequest.StartLocation, searchRequest.EndDate, THREEHOURSBEFOREORAFTER, cancellationToken);
+
+            if (searchRequest.IsTest)
+            {
+                roundTrip.SelectedDepartingFlight = roundTrip.DepartingFlights.Skip(TestSettings.random.Next(roundTrip.DepartingFlights.Count() - 1)).First().Id;
+            }
+
+            if (searchRequest.IsTest)
+            {
+                roundTrip.SelectedReturningFlight = roundTrip.ReturningFlights.Skip(TestSettings.random.Next(roundTrip.ReturningFlights.Count() - 1)).First().Id;
+            }
+
             return roundTrip;
         }
 

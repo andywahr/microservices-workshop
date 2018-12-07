@@ -12,6 +12,7 @@
         <hr />
         @{
             ViewData["SelectedFlightName"] = "SelectedDepartingFlight";
+            ViewData["SelectedFlightId"] = Model.SelectedDepartingFlight != 0 ? Model.SelectedDepartingFlight.ToString() : null;
         }
         @foreach (var departFlight in Model.DepartingFlights.OrderBy(f => f.DepartureTime))
         {
@@ -24,6 +25,7 @@
         <hr />
         @{
             ViewData["SelectedFlightName"] = "SelectedReturningFlight";
+            ViewData["SelectedFlightId"] = Model.SelectedReturningFlight != 0 ? Model.SelectedReturningFlight.ToString() : null;
         }
         @foreach (var returnFlight in Model.ReturningFlights.OrderBy(f => f.DepartureTime))
         {

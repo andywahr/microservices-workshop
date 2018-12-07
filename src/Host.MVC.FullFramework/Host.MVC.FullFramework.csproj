@@ -581,6 +581,9 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore">
+      <Version>2.5.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Azure.Services.AppAuthentication">
       <Version>1.0.3</Version>
     </PackageReference>

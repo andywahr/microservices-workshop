@@ -23,7 +23,8 @@ namespace ContosoTravel.Web.Application.Services.ServiceBus
             _contosoConfig = contosoConfig;
             _serviceBusClient = new Lazy<QueueClient>(() =>
             {
-                return new QueueClient(_contosoConfig.ServiceConnectionString, Constants.QUEUENAME, ReceiveMode.PeekLock, RetryPolicy.Default);
+                ServiceBusConnectionStringBuilder connectionStringBuilder = new ServiceBusConnectionStringBuilder(_contosoConfig.ServiceConnectionString);
+                return new QueueClient(connectionStringBuilder, ReceiveMode.PeekLock, RetryPolicy.Default);
 
                 /*
                  * Still in Preview

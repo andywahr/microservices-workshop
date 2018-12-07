@@ -2,6 +2,7 @@
 @{
     var duration = TimeSpan.FromDays(Model.NumberOfDays);
     bool showPurchase = !bool.TrueString.Equals(ViewData["HidePurchase"]?.ToString() ?? "", StringComparison.OrdinalIgnoreCase);
+    bool selected = string.Equals(Model.Hotel.Id.ToString(), ViewData["SelectedHotelId"]?.ToString());
 }
 
 <div class="card">
@@ -12,7 +13,9 @@
     @if (showPurchase)
     {
         <label class="btn btn-primary input-group-btn float-right">
-            <input type="radio" id="SelectedHotel" name="SelectedHotel" value="@Model.Hotel.Id">Purchase
+            <input type="radio" id="SelectedHotel" name="SelectedHotel" value="@Model.Hotel.Id" @if (selected) {
+                @:checked="checked"
+             }>Purchase
         </label>
     }
     </div>

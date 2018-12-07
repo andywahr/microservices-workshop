@@ -2,6 +2,7 @@
 using ContosoTravel.Web.Application.Interfaces.MVC;
 using ContosoTravel.Web.Application.Models;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,6 +41,12 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
         {
             CarReservationModel carReservation = new CarReservationModel() { NumberOfDays = searchRequest.EndDate.Subtract(searchRequest.StartDate).TotalDays };
             carReservation.Cars = await _carDataProvider.FindCars(searchRequest.StartLocation, searchRequest.StartDate, cancellationToken);
+
+            if (searchRequest.IsTest)
+            {
+                carReservation.SelectedCar = carReservation.Cars.Skip(TestSettings.random.Next(carReservation.Cars.Count() - 1)).First().Id;
+            }
+
             return carReservation;
         }
 

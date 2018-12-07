@@ -19,6 +19,8 @@ namespace ContosoTravel.Web.Application.Models
         public string EndDateLabel { get; set; }
         public SearchMode SearchMode { get; set; }
         public IEnumerable<AirportModel> AirPorts { get; set; }
+
+        public bool IsTest { get; set; }
     }
 
     public enum SearchMode

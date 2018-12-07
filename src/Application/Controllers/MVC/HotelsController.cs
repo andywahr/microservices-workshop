@@ -2,6 +2,7 @@
 using ContosoTravel.Web.Application.Interfaces.MVC;
 using ContosoTravel.Web.Application.Models;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,9 +39,15 @@ namespace ContosoTravel.Web.Application.Controllers.MVC
 
         public async Task<HotelReservationModel> Search(SearchModel searchRequest, CancellationToken cancellationToken)
         {
-            HotelReservationModel carReservation = new HotelReservationModel() { NumberOfDays = (int)Math.Ceiling(searchRequest.EndDate.Subtract(searchRequest.StartDate).TotalDays) };
-            carReservation.Hotels = await _hotelDataProvider.FindHotels(searchRequest.StartLocation, searchRequest.StartDate, cancellationToken);
-            return carReservation;
+            HotelReservationModel hotelReservation = new HotelReservationModel() { NumberOfDays = (int)Math.Ceiling(searchRequest.EndDate.Subtract(searchRequest.StartDate).TotalDays) };
+            hotelReservation.Hotels = await _hotelDataProvider.FindHotels(searchRequest.StartLocation, searchRequest.StartDate, cancellationToken);
+
+            if ( searchRequest.IsTest )
+            {
+                hotelReservation.SelectedHotel = hotelReservation.Hotels.Skip(TestSettings.random.Next(hotelReservation.Hotels.Count() - 1)).First().Id;
+            }
+
+            return hotelReservation;
         }
 
         public async Task Purchase(HotelReservationModel hotel, CancellationToken cancellationToken)

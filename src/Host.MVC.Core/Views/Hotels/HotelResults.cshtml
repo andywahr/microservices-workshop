@@ -1,6 +1,7 @@
 ﻿@model ContosoTravel.Web.Application.Models.HotelReservationModel
 @{
     ViewData["Title"] = $"Hotels";
+    ViewData["SelectedHotelId"] = Model.SelectedHotel != 0 ? Model.SelectedHotel.ToString() : null;
 }
 
 <h2>Hotel Search Results</h2>
