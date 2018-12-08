@@ -1,3 +1,6 @@
+# a build with no CI
+trigger: none
+
 variables:
   BuildConfiguration: ServiceCoreEventGrid
   BuildPlatform: Any CPU
