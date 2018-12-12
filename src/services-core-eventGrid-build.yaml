@@ -2,7 +2,7 @@
 trigger: none
 
 variables:
-  BuildConfiguration: ServiceCoreEventGrid
+  BuildConfiguration: ServicesCoreEventGrid
   BuildPlatform: Any CPU
 
 jobs:

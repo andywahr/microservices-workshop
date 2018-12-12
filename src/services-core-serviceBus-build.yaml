@@ -2,7 +2,7 @@
 trigger: none
 
 variables:
-  BuildConfiguration: ServiceCoreServiceBus
+  BuildConfiguration: ServicesCoreServiceBus
   BuildPlatform: Any CPU
 
 jobs:
