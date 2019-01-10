@@ -26,7 +26,7 @@ namespace DataLoader.CosmosDB
 
         public async Task Configure(CancellationToken cancellationToken)
         {
-            var client = await _cosmosDBProvider.GetDocumentClient();
+            var client = _cosmosDBProvider.GetDocumentClient();
             await client.CreateDatabaseIfNotExistsAsync(new Microsoft.Azure.Documents.Database() { Id = _contosoConfiguration.DatabaseName });
         }
     }    

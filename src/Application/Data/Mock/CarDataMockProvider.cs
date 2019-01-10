@@ -56,7 +56,7 @@ namespace ContosoTravel.Web.Application.Data.Mock
 
             foreach (var airPort in (await _airportDataProvider.GetAll(CancellationToken.None)))
             {
-                for (int dayOffset = -1; dayOffset < 14; dayOffset++)
+                for (int dayOffset = -1; dayOffset < 7; dayOffset++)
                 {
                     DateTime today = DateTime.Now.Date.AddDays(dayOffset);
                     TimeZoneInfo airPortTimeZone = ContosoTravel.Web.Application.Extensions.TimeZoneHelper.FindSystemTimeZoneById(airPort.TimeZone);

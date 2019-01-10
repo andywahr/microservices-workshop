@@ -26,6 +26,11 @@ namespace ContosoTravel.Web.Application.Services
         public async Task<string> Purchase(string cartId, System.DateTimeOffset PurchasedOn, CancellationToken cancellationToken)
         {
             CartPersistenceModel cart = await _cartDataProvider.GetCart(cartId, cancellationToken);
+            return await Purchase(cart, PurchasedOn, cancellationToken);
+        }
+
+        public async Task<string> Purchase(CartPersistenceModel cart, System.DateTimeOffset PurchasedOn, CancellationToken cancellationToken)
+        {
             ItineraryPersistenceModel itinerary = JsonConvert.DeserializeObject<ItineraryPersistenceModel>(JsonConvert.SerializeObject(cart));
             itinerary.PurchasedOn = PurchasedOn;
 

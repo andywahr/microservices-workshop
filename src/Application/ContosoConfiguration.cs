@@ -10,11 +10,10 @@ namespace ContosoTravel.Web.Application
     {
         public static ContosoConfiguration PopulateFromConfig(IConfiguration appConfig, bool withDBSecrets = false)
         {
-            IConfigurationSection contosoConfigSection = appConfig.GetSection("ContosoTravel");
-            DataType = (DataType)Enum.Parse(typeof(DataType), contosoConfigSection["DataType"]);
-            ServicesType = (ServicesType)Enum.Parse(typeof(ServicesType), contosoConfigSection["ServicesType"]);
+            DataType = (DataType)Enum.Parse(typeof(DataType), appConfig["DataType"]);
+            ServicesType = (ServicesType)Enum.Parse(typeof(ServicesType), appConfig["ServicesType"]);
 
-            var newConfig = contosoConfigSection.Get<ContosoConfiguration>();
+            var newConfig = appConfig.Get<ContosoConfiguration>();
 
             if ( !withDBSecrets )
             {

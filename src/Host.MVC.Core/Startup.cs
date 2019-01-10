@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
+﻿using Autofac;
 using ContosoTravel.Web.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
 
 namespace ContosoTravel.Web.Host.MVC.Core
 {
@@ -37,6 +32,20 @@ namespace ContosoTravel.Web.Host.MVC.Core
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddHttpContextAccessor();
+
+            services.AddHttpClient("DataService", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(Configuration["DataServiceUrl"]);
+                httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+
+            services.AddHttpClient("ItineraryService", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(Configuration["ItineraryServiceUrl"]);
+                httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+
+            services.AddLogging();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

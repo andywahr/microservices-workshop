@@ -33,7 +33,7 @@ namespace ContosoTravel.Web.Application
 
         public static IContainer InitCotoso(string keyVaultUrl, string currentDirectory, Assembly mainAssembly, ContainerBuilder builder = null, bool withDBSecrets = false)
         {
-            IConfigurationBuilder configBuilder = new ConfigurationBuilder().SetBasePath(currentDirectory);
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder().SetBasePath(currentDirectory).AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             if (!string.IsNullOrEmpty(keyVaultUrl))
             {
@@ -41,10 +41,6 @@ namespace ContosoTravel.Web.Application
                 var kvClient = new KeyVaultClient((authority, resource, scope) => tokenProvider.KeyVaultTokenCallback(authority, resource, scope));
 
                 configBuilder = configBuilder.AddAzureKeyVault(keyVaultUrl, kvClient, new DefaultKeyVaultSecretManager());
-            }
-            else
-            {
-                configBuilder = configBuilder.AddJsonFile("contosoSettings.json", optional: false, reloadOnChange: false);
             }
 
             var config = configBuilder.AddEnvironmentVariables().Build();
@@ -60,7 +56,7 @@ namespace ContosoTravel.Web.Application
             }
 
             builder.RegisterInstance<ContosoConfiguration>(contsoConfig).AsSelf();
-            builder.RegisterAssemblyModules(mainAssembly, typeof(Application.ContosoConfiguration).Assembly);
+            builder.RegisterAssemblyModules(typeof(Application.ContosoConfiguration).Assembly, mainAssembly);
 
             if (buildHere)
             {

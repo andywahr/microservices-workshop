@@ -53,9 +53,9 @@ namespace ContosoTravel.Web.Application.Data.Mock
                 var departingFrom = await _airportDataProvider.FindByCode(flightTime.DepartingFrom, CancellationToken.None);
                 var arrivingAt = await _airportDataProvider.FindByCode(flightTime.ArrivingAt, CancellationToken.None);
 
-                for (int dayOffset = -1; dayOffset < 14; dayOffset++)
+                for (int dayOffset = -1; dayOffset < 7; dayOffset++)
                 {
-                    int numberOfFlights = random.Next(5, 20);
+                    int numberOfFlights = random.Next(3, 5);
                     DateTime today = DateTime.Now.Date.AddDays(dayOffset);
                     TimeZoneInfo departingTimeZone = ContosoTravel.Web.Application.Extensions.TimeZoneHelper.FindSystemTimeZoneById(departingFrom.TimeZone);
 

@@ -14,49 +14,43 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
 {
     public class CosmosDBProvider
     {
-        private AsyncLazy<DocumentClient> _client;
-        private ContosoConfiguration _cotosoConfig;
+        private DocumentClient _client;
+        private ContosoConfiguration _contosoConfig;
 
-        public CosmosDBProvider(ContosoConfiguration cotosoConfig, AzureManagement azureManagement)
+        public CosmosDBProvider(ContosoConfiguration contosoConfig, AzureManagement azureManagement)
         {
-            _cotosoConfig = cotosoConfig;
-            _client = new AsyncLazy<DocumentClient>(async () =>
-            {
-                var azure = await azureManagement.ConnectToSubscription(_cotosoConfig.SubscriptionId);
-                var cosmosAccounts = azure.CosmosDBAccounts.List();
-                var cosmosAccout = cosmosAccounts.Where(cosmos => cosmos.Name.Equals(_cotosoConfig.DataAccountName, StringComparison.OrdinalIgnoreCase)).First();
-                var keys = cosmosAccout.ListKeys();
-                return new DocumentClient(new Uri(cosmosAccout.DocumentEndpoint), keys.PrimaryMasterKey, new ConnectionPolicy() { RetryOptions = new RetryOptions() { MaxRetryAttemptsOnThrottledRequests = 20 } });
-            });
+            _contosoConfig = contosoConfig;
+
+            _client = new DocumentClient(new Uri($"https://{contosoConfig.DataAccountName}.documents.azure.com"), contosoConfig.DataAccountPassword, new ConnectionPolicy() { RetryOptions = new RetryOptions() { MaxRetryAttemptsOnThrottledRequests = 20 } });
+
         }
 
-        public async Task<DocumentClient> GetDocumentClient()
+        public DocumentClient GetDocumentClient()
         {
-            return await _client;
+            return _client;
         }
 
         public async Task<DocumentClient> GetDocumentClientAndVerifyCollection(string collection, params string[][] indexes)
         {
             // leave indexes for later
 
-            var docClient = await GetDocumentClient();
-            await docClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(_cotosoConfig.DatabaseName),
+            await _client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(_contosoConfig.DatabaseName),
                                                                      new DocumentCollection
                                                                      {
                                                                          Id = collection
                                                                      },
                                                                      new RequestOptions { OfferThroughput = 400 });
-            return docClient;
+            return _client;
         }
 
         public async Task<T> FindById<T>(DocumentClient client, string collection, string id, CancellationToken cancellationToken)
         {
-            return await client.ReadDocumentAsync<T>(UriFactory.CreateDocumentUri(_cotosoConfig.DatabaseName, collection, id), cancellationToken: cancellationToken);
+            return await client.ReadDocumentAsync<T>(UriFactory.CreateDocumentUri(_contosoConfig.DatabaseName, collection, id), cancellationToken: cancellationToken);
         }
 
         public async Task<FeedResponse<T>> GetAll<T>(DocumentClient client, string collection, Func<IOrderedQueryable<T>, IQueryable<T>> filter, CancellationToken cancellationToken)
         {
-            var query = filter(client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_cotosoConfig.DatabaseName, collection),
+            var query = filter(client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_contosoConfig.DatabaseName, collection),
                                                                                                            new FeedOptions
                                                                                                            {
                                                                                                                EnableCrossPartitionQuery = true
@@ -68,7 +62,7 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
 
         public async Task<bool> Persist<T>(DocumentClient client, string collection, T instance, CancellationToken cancellationToken)
         {
-            await client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(_cotosoConfig.DatabaseName, collection), instance, cancellationToken: cancellationToken, disableAutomaticIdGeneration: true);
+            await client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(_contosoConfig.DatabaseName, collection), instance, cancellationToken: cancellationToken, disableAutomaticIdGeneration: true);
             return true;
         }
     }
