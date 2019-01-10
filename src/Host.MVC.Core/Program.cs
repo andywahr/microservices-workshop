@@ -18,11 +18,12 @@ namespace ContosoTravel.Web.Host.MVC.Core
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                    .ConfigureServices(services => services.AddAutofac())
-                    .ConfigureLogging((hostingContext, logging) =>
-                    {
-                        logging.AddConsole();
-                        logging.AddDebug();
-                    })
+                   .ConfigureLogging((hostingContext, logging) =>
+                   {
+                       logging.AddConsole();
+                       logging.AddDebug();
+                   })
+                   .UseApplicationInsights()
                    .UseStartup<Startup>();
     }
 }

@@ -38,8 +38,8 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
         {
             var docClient = await _getClientAndVerifyCollection;
             return await _cosmosDBProvider.GetAll<CarModel>(docClient, COLLECTIONNAME, (q) => q.Where(c => c.Location == location &&
-                                                                                                           c.StartingTimeEpoc >= desiredTime.ToEpoch() &&
-                                                                                                           c.EndingTimeEpoc <= desiredTime.ToEpoch()).OrderBy(c => c.Cost), cancellationToken);
+                                                                                                           c.StartingTimeEpoc <= desiredTime.ToEpoch() &&
+                                                                                                           c.EndingTimeEpoc >= desiredTime.ToEpoch()).OrderBy(c => c.Cost), cancellationToken);
         }
 
         public async Task<bool> Persist(CarModel instance, CancellationToken cancellationToken)

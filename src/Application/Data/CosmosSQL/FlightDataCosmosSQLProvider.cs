@@ -40,8 +40,8 @@ namespace ContosoTravel.Web.Application.Data.CosmosSQL
             var docClient = await _getClientAndVerifyCollection;
             return await _cosmosDBProvider.GetAll<FlightModel>(docClient, COLLECTIONNAME, (q) => q.Where(f => f.DepartingFrom == departingFrom &&
                                                                                                             f.ArrivingAt == arrivingAt &&
-                                                                                                            f.DepartureTimeEpoc <= desiredTime.Subtract(offset).ToEpoch() &&
-                                                                                                           f.DepartureTimeEpoc >= desiredTime.Add(offset).ToEpoch()).OrderBy(f => f.DepartureTimeEpoc), cancellationToken);
+                                                                                                            f.DepartureTimeEpoc >= desiredTime.Subtract(offset).ToEpoch() &&
+                                                                                                           f.DepartureTimeEpoc <= desiredTime.Add(offset).ToEpoch()).OrderBy(f => f.DepartureTimeEpoc), cancellationToken);
         }
 
         public async Task<bool> Persist(FlightModel instance, CancellationToken cancellationToken)

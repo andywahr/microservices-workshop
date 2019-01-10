@@ -16,6 +16,7 @@ namespace ContosoTravel.Web.Host.ItineraryService
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                    .ConfigureServices(services => services.AddAutofac())
-                .UseStartup<Startup>();
+                   .UseApplicationInsights()
+                   .UseStartup<Startup>();
     }
 }
