@@ -25,6 +25,8 @@ namespace DataLoader
         static void Main(string[] args)
         {
             AsyncContext.Run(() => MainAsync(args));
+            Console.WriteLine("DataLoader Complete!");
+            Console.ReadLine();
         }
 
         static async Task MainAsync(string[] args)
